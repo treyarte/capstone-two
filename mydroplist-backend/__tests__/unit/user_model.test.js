@@ -51,7 +51,14 @@ describe('User model tests', () => {
                 is_admin: false
             }
         });
+    });
+
+    test('should return a boolean for duplicate emails', async () => {
+       const isUnique =  await User.isUniqueEmail('Yosemite@sam.com');
+        
+       expect(isUnique).toEqual(true);
     })
+    
 
     test('should get a list of all users', async () => {
         const users = await User.getAll();
@@ -113,6 +120,12 @@ describe('User model tests', () => {
 
         expect(isDeleted).toEqual(true);
     });
+
+    test('Should authenticate a valid user email and password', async () => {
+        const user = await User.authenticate('Yosemite@sam.com', 'test');
+
+        expect(user.first_name).toEqual('sam')
+    })
     
 
     afterAll(async () => {
