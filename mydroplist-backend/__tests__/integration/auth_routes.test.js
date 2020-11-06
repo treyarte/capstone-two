@@ -35,11 +35,12 @@ describe('test for authentication routes', () => {
             const resp = await request(app).post('/login').send({email: u1.email, password: 'test'});
 
             const {token} = resp.body;
-
+            
             expect(jwt.decode(token)).toEqual({
                 email: 'Yosemite@sam.com',
                 is_admin: false,
                 iat: expect.any(Number),
+                id: expect.any(Number)
             })
         });
 
@@ -49,11 +50,36 @@ describe('test for authentication routes', () => {
             expect(error).toEqual({
                 status: 401,
                 message: 'Invalid Credentials'
-            })
-        })
-        
+            });
+        }); 
+    });
+
+    describe('/sign-up POST', () => {
+        test('should sign up a user and return a token', async () => {
+          const resp = await request(app).post('/sign-up').send(
+              {
+                email: 'tren@gmail.com', 
+                password: 'testPass', 
+                first_name: 'tren', 
+                last_name: 'black', 
+                department_id: 4, 
+                role_id: 2
+              }
+          );
+          
+          const {token} = resp.body;
+    
+          expect(resp.statusCode).toEqual(201);
+          expect(jwt.decode(token)).toEqual({
+            "email": "tren@gmail.com", 
+            "iat": expect.any(Number), 
+            "id": expect.any(Number), 
+            "is_admin": false
+          });
+        });
         
     })
+    
     
 
     afterAll(async () =>{

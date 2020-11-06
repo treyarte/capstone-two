@@ -122,7 +122,7 @@ describe('User model tests', () => {
     });
 
     test('Should authenticate a valid user email and password', async () => {
-        const user = await User.authenticate('Yosemite@sam.com', 'test');
+        const {user} = await User.authenticate('Yosemite@sam.com', 'test');
 
         expect(user.first_name).toEqual('sam')
     })

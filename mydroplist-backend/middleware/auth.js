@@ -53,3 +53,11 @@ function ensureAdmin(req, res, next){
         return next(error);
     }
 }
+
+module.exports = {
+    ensureAdmin,
+    ensureCorrectUser,
+    authenticateJWT,
+    ensureLogIn,
+    authenticateJWT
+}

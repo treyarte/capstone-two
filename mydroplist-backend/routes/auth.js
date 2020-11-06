@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const {SECRET} = require('../config')
 const jwt = require('jsonwebtoken')
+const createToken = require('../helpers/createToken');
 
 /**
  * authenticates a user and returns a jwt
@@ -14,11 +15,10 @@ router.post('/login', async (req, res, next) => {
         const {email, password} = req.body;
         const user = await User.authenticate(email, password);
 
-        const token = jwt.sign(
-            {id: user.id, email: user.email, is_admin: user.is_admin},
-            SECRET
-        );
-    return res.json({token})
+        const token = createToken(user);
+
+        return res.status(200).json({token})
+
     } catch (error) {
         return next(error)
     }
@@ -29,12 +29,10 @@ router.post('/sign-up', async (req, res, next) => {
         const data = req.body;
         const user = await User.register(data);
 
-        const token = jwt.sign(
-            {id: user.id, email: user.email, is_admin: user.is_admin},
-            SECRET
-        );
+        const token = createToken(user);
 
         return res.status(201).json({token});
+        
     } catch (error) {
         return next(error);
     }

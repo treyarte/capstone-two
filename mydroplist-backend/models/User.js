@@ -16,13 +16,13 @@ class User {
      */
     static async authenticate(email, password){
         const results = await db.query(
-            'SELECT email, password, first_name, last_name, is_admin FROM users WHERE email=$1',
+            'SELECT id, email, password, first_name, last_name, is_admin FROM users WHERE email=$1',
              [email]);
         const user = results.rows[0];
 
         if(user){
             const isValid = await bcrypt.compare(password, user.password)
-            if(isValid) return user
+            if(isValid) return {user}
         }
 
         throw new ExpressError('Invalid Credentials', 401);
