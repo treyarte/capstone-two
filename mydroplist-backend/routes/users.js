@@ -6,9 +6,11 @@ const {ensureCorrectUser, ensureLogIn} = require('../middleware/auth')
 
 router.get('/', ensureLogIn, async (req, res, next) =>{
     try {
-        const users = User.getAll();
+        const users = await User.getAll();
         return res.json(users);
     } catch (error) {
         return next(error);
     }
 });
+
+module.exports = router;
