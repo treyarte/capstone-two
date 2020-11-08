@@ -101,7 +101,7 @@ class User {
      */
     static async update(update_id, userData){
         const {first_name, last_name, email, department_id, password, role_id} = userData
-        const hashedUpdatedPassword = bcrypt.hash(password, BCRYPT_WORK_FACTOR);
+        const hashedUpdatedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
         if(!await this.userExists(update_id)){
             throw new Error("user not found", 404);

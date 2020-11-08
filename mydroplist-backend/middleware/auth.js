@@ -34,7 +34,7 @@ function ensureLogIn(req, res, next){
  * check if the logged in user is the same as user trying to modify
  */
 function ensureCorrectUser(req, res, next){
-    if(req.user.id === req.params.id){
+    if(req.user.id === parseInt(req.params.id)){
         return next();
     } else {
         const error = new ExpressError('Unauthorized Access', 401);

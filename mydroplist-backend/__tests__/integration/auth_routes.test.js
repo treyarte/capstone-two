@@ -46,8 +46,9 @@ describe('test for authentication routes', () => {
 
         test('should return 401 if invalid credentials', async () => {
             const resp = await request(app).post('/login').send({email: 'noExists', password: 'not real'});
-            const {error} = resp.body;
-            expect(error).toEqual({
+            const {status, message} = resp.body;
+
+            expect({status, message}).toEqual({
                 status: 401,
                 message: 'Invalid Credentials'
             });

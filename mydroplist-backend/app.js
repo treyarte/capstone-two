@@ -32,7 +32,7 @@ app.use((error, req, res, next) => {
     console.log(error.stack);
 
     return res.json({
-        error: error,
+        status: error.status,
         message: error.message
     });
 });
