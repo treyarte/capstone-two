@@ -11,6 +11,6 @@ const authSchema = require('../yupSchemas/authSchema');
  */
 router.post('/login', validateSchema(authSchema.login), authController.login);
 
-router.post('/sign-up', authController.signUp)
+router.post('/sign-up', validateSchema(authSchema.signUp), authController.signUp)
 
 module.exports = router

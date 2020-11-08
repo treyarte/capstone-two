@@ -12,7 +12,7 @@ describe('test for authentication routes', () => {
         const {user: user_1} =  await User.register({
             first_name: 'sam',
             last_name: 'test',
-            password: 'test',
+            password: 'Test12345!',
             email: 'Yosemite@sam.com',
             department_id: 2,
             role_id: 2
@@ -22,7 +22,7 @@ describe('test for authentication routes', () => {
             first_name: 'emanual',
             last_name: 'test',
             email: 'e@manuel.com',
-            password: 'test',
+            password: 'Test12345!',
             department_id: 1,
             role_id: 1
         });
@@ -32,7 +32,7 @@ describe('test for authentication routes', () => {
     describe('/login POST', () => {
         test('should return a valid token for correct credentials', async () => {
             
-            const resp = await request(app).post('/login').send({email: u1.email, password: 'test'});
+            const resp = await request(app).post('/login').send({email: u1.email, password: 'Test12345!'});
 
             const {token} = resp.body;
             
@@ -45,7 +45,7 @@ describe('test for authentication routes', () => {
         });
 
         test('should return 401 if invalid credentials', async () => {
-            const resp = await request(app).post('/login').send({email: 'noExists', password: 'not real'});
+            const resp = await request(app).post('/login').send({email: 'noExists', password: 'Test12345!21212'});
             const {status, message} = resp.body;
 
             expect({status, message}).toEqual({
@@ -60,7 +60,7 @@ describe('test for authentication routes', () => {
           const resp = await request(app).post('/sign-up').send(
               {
                 email: 'tren@gmail.com', 
-                password: 'testPass', 
+                password: 'Test12345!', 
                 first_name: 'tren', 
                 last_name: 'black', 
                 department_id: 4, 

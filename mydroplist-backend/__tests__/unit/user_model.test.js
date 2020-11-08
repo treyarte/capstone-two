@@ -10,7 +10,7 @@ describe('User model tests', () => {
         u1 = await User.register({
             first_name: 'sam',
             last_name: 'test',
-            password: 'test',
+            password: 'Test12345!',
             email: 'Yosemite@sam.com',
             department_id: 2,
             role_id: 2
@@ -20,7 +20,7 @@ describe('User model tests', () => {
             first_name: 'emanual',
             last_name: 'test',
             email: 'e@manuel.com',
-            password: 'test',
+            password: 'Test12345!',
             department_id: 1,
             role_id: 1
         });
@@ -33,7 +33,7 @@ describe('User model tests', () => {
             first_name: 'testUser',
             email: "test@user.com",
             last_name: 'userTest',
-            password: 'test',
+            password: 'Test12345!',
             department_id: 1,
             role_id: 1
         }); 
@@ -122,7 +122,7 @@ describe('User model tests', () => {
     });
 
     test('Should authenticate a valid user email and password', async () => {
-        const {user} = await User.authenticate('Yosemite@sam.com', 'test');
+        const {user} = await User.authenticate('Yosemite@sam.com', 'Test12345!');
 
         expect(user.first_name).toEqual('sam')
     })

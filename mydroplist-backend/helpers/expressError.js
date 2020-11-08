@@ -11,6 +11,7 @@
      }
 
      static badRequest(msg){
+         console.log(msg);
          return new ExpressError(msg, 400);
      }
  }

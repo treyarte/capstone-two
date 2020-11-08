@@ -4,12 +4,8 @@ const options = {
     message: 'password must contain a capital letter and must be a combination of letters and numbers'
 }
 
-const login = yup.object().shape({
-    email: yup.string().trim().required(),
-    password: yup.string().trim().required()
-});
 
-const signUp = yup.object().shape({
+const update = yup.object().shape({
     email: yup.string().trim().email().required(),
     password: yup.string().trim().min(8).matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
@@ -19,6 +15,6 @@ const signUp = yup.object().shape({
     last_name: yup.string().trim().required(),
     department_id: yup.number().integer().positive().min(1).required(),
     role_id: yup.number().integer().positive().min(1).required(),
-});
+})
 
-module.exports = {login, signUp}
+module.exports = {update}

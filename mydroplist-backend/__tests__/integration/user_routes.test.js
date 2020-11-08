@@ -11,7 +11,7 @@ describe('User test routes', () => {
         const {user: user_1} =  await User.register({
             first_name: 'sam',
             last_name: 'test',
-            password: 'test',
+            password: 'Test12345!',
             email: 'Yosemite@sam.com',
             department_id: 2,
             role_id: 2
@@ -21,22 +21,18 @@ describe('User test routes', () => {
             first_name: 'emanual',
             last_name: 'test',
             email: 'e@manuel.com',
-            password: 'test',
+            password: 'Test12345!',
             department_id: 1,
             role_id: 1
         });
         u2 = user_2;
 
-        // const resp = await request(app)
-        //   .post(`/login`)
-        //   .send({ email: u1.user.email, password: 'test' });
-
-        const resp = await request(app).post('/login').send({email: u1.email, password: 'test'});
+        const resp = await request(app).post('/login').send({email: u1.email, password: 'Test12345!'});
         const { token } = resp.body;
         
         u1.token = token;
 
-        const resp_2 = await request(app).post('/login').send({email: u2.email, password: 'test'});
+        const resp_2 = await request(app).post('/login').send({email: u2.email, password: 'Test12345!'});
         const { token: token_2 } = resp_2.body;
 
         u2.token = token_2;
@@ -89,7 +85,7 @@ describe('User test routes', () => {
                 last_name: 'test',
                 department_id: 1,
                 role_id: 1,
-                password: 'test',
+                password: 'Test12345!',
                 email: 'Yosemite@sam.com',
 
             }
