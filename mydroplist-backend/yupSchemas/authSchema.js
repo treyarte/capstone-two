@@ -5,4 +5,14 @@ const login = yup.object().shape({
     password: yup.string().trim().required()
 });
 
-module.exports = login
+const signUp = yup.object().shape({
+    email: yup.string().trim().email().required(),
+    password: yup.string().trim().required(),
+    first_name: yup.string().trim().required(),
+    last_name: yup.string().trim().required(),
+    department_id: yup.number().integer().positive().min(1),
+    role_id: yup.number().integer().positive().min(1),
+
+});
+
+module.exports = {login, signUp}

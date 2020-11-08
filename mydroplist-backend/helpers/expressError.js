@@ -9,6 +9,10 @@
          this.status = status;
         console.error(this.stack)
      }
+
+     static badRequest(msg){
+         return new ExpressError(msg, 400);
+     }
  }
 
  module.exports = ExpressError;
