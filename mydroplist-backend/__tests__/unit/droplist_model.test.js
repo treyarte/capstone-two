@@ -118,6 +118,68 @@ describe('Droplist model tests', () => {
         })
     })
 
+    test('should delete a droplist', async () => {
+        const isDeleted = await Droplist.delete(d1.id);
+
+        expect(isDeleted).toEqual(true);
+    })
+
+    test('should change the status of a droplist', async () => {
+        const droplist_id = await Droplist.changeStatus('SENT', d1.id);
+
+        const droplist = await Droplist.get(droplist_id);
+
+        expect(droplist).toEqual({
+            droplist: {
+                id: expect.any(Number),
+                stocker: {
+                    id: u2.id,
+                    first_name: u2.first_name,
+                    last_name: u2.last_name
+                },
+                description: 'test list',
+                status: 'sent',
+                department: {
+                    id: 2,
+                    name: 'sundries'
+                },
+                items: []
+            }
+        })
+    })
+    
+    test('should add forklift driver to a droplist', async () => {
+        const droplist_id = await Droplist.addDriver(d1.id, u1.id);
+
+        const droplist = await Droplist.get(droplist_id);
+
+        expect(droplist).toEqual({
+            droplist: {
+                id: expect.any(Number),
+                stocker: {
+                    id: u2.id,
+                    first_name: u2.first_name,
+                    last_name: u2.last_name
+                },
+                description: 'test list',
+                status: 'not sent',
+                forklift_driver:{
+                    id: u1.id,
+                    first_name: u1.first_name,
+                    last_name: u1.last_name
+                },
+                department: {
+                    id: 2,
+                    name: 'sundries'
+                },
+                items: []
+            }
+
+        })
+    })
+    
+
+
     afterAll(async () => {
         await db.end();
     });

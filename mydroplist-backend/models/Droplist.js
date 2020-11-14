@@ -52,6 +52,11 @@ class Droplist {
     // }
 
     static async get(id){
+
+        if(!await this.droplistExists(id)){
+            throw new Error("Droplist not found", 404);
+        }
+
         const results = await db.query(`
             SELECT droplists.id, description, status, department, droplists.department_id, users.id as stocker_id, users.first_name,
             users.last_name, droplists.forklift_driver_id
@@ -85,12 +90,13 @@ class Droplist {
         }
 
         if (droplistResults.forklift_driver_id){
+        
             let forklift_driver = await User.get(droplistResults.forklift_driver_id);
 
-            droplist.forklift_driver = {
-                id: forklift_driver.id,
-                    first_name: forklift_driver.first_name ,
-                    last_name: forklift_driver.last_name
+            droplist.droplist.forklift_driver = {
+                id: forklift_driver.user.id,
+                    first_name: forklift_driver.user.first_name ,
+                    last_name: forklift_driver.user.last_name
             }
         }
 
@@ -116,6 +122,11 @@ class Droplist {
     }
 
     static async update(droplist_id, description, department_id){
+
+        if(!await this.droplistExists(droplist_id)){
+            throw new Error("Droplist not found", 404);
+        }
+
         const results = await db.query(`
             UPDATE droplists SET description = $1, department_id = $2
             WHERE id = $3 RETURNING id
@@ -124,6 +135,63 @@ class Droplist {
         const droplist = await Droplist.get(results.rows[0].id);
         return droplist;
     }
+
+    static async delete(droplist_id){
+        const results = await db.query('DELETE FROM droplists WHERE id = $1 RETURNING id', [droplist_id]);
+
+        if(results.rows.length === 0){
+            const error = new Error("Droplist not found");
+            error.status = 404;
+            throw error
+        } else {
+            return true;
+        }
+    }
+
+    static async changeStatus(status_key, droplist_id){
+
+        if(!await this.droplistExists(droplist_id)){
+            throw new Error("Droplist not found", 404);
+        }
+
+        const statuses = {
+            NOT_SENT: 'not sent',
+            SENT: 'sent',
+            ACCEPTED: 'accepted',
+            DECLINED: 'declined',
+            COMPLETED: 'completed'
+        }
+
+        const results = await db.query(`
+            UPDATE droplists SET status=$1
+            WHERE droplists.id = $2 
+            RETURNING id
+        `, [statuses[status_key], droplist_id]);
+
+        return results.rows[0].id
+    }
+
+    static async addDriver(droplist_id, forklift_driver_id){
+    
+        if(!await this.droplistExists(droplist_id)){
+            throw new Error("Droplist not found", 404);
+        }
+
+        const results = await db.query(`
+            UPDATE droplists SET forklift_driver_id = $1
+            WHERE droplists.id = $2 
+            RETURNING id
+        `, [forklift_driver_id, droplist_id]);
+
+        return results.rows[0].id
+    }
+
+    static async droplistExists(droplist_id){
+        const results = await db.query('SELECT id FROM droplists WHERE id = $1', [droplist_id]);
+
+        return (results.rows.length > 0);
+    }
+
 }
 
 
