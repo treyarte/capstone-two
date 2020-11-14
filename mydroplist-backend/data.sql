@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS roles CASCADE;
 DROP TABLE IF EXISTS departments CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS droplists CASCADE;
 
 CREATE TABLE roles (
     id SERIAL PRIMARY KEY,
@@ -38,4 +39,17 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (first_name, last_name, email, "password", department_id, role_id) VALUES
-    ('trey', 'way', 'treyway@gmail.com', 'test', 1, 1);
+    ('Trent', 'Luis', 'email@gmail.com', 'lolol', 1, 1);
+
+CREATE TABLE Droplists(
+    id SERIAL PRIMARY KEY,
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE,
+    "status" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    stocker_id INTEGER NOT NULL REFERENCES users,
+    forklift_driver_id INTEGER REFERENCES users,
+    department_id INTEGER NOT NULL REFERENCES departments
+);
+
+INSERT INTO Droplists(stocker_id, department_id, "status", "description") VALUES
+    (1, 1, 'not sent', 'todays list');
