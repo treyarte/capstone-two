@@ -75,17 +75,48 @@ describe('Droplist model tests', () => {
                     id: 2,
                     name: 'sundries'
                 },
-                forklift_driver: {
-                    id: undefined,
-                    first_name: undefined,
-                    last_name: undefined
-                },
                 items: []
             }
         });
+    });
 
+    test('should get all droplist from a user', async () => {
+        const droplists = await Droplist.getAll(u2.id, u2.role_id);
+
+        expect(droplists).toEqual({
+            droplists: [
+                {
+                    id: expect.any(Number),
+                    description: 'test list',
+                    created_at: expect.any(Date),
+                    status: 'not sent',
+                    department_id: expect.any(Number),
+                }
+            ]
+        })
     })
     
+    test('should update a droplist', async () => {
+        const updatedDroplist = await Droplist.update(d1.id, "updated desc", 3);
+
+        expect(updatedDroplist).toEqual({
+            droplist: {
+                id: expect.any(Number),
+                stocker: {
+                    id: u2.id,
+                    first_name: u2.first_name,
+                    last_name: u2.last_name
+                },
+                description: 'updated desc',
+                status: 'not sent',
+                department: {
+                    id: 3,
+                    name: 'hardlines'
+                },
+                items: []
+            }
+        })
+    })
 
     afterAll(async () => {
         await db.end();
