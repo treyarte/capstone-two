@@ -40,7 +40,8 @@ describe('test for authentication routes', () => {
                 email: 'Yosemite@sam.com',
                 is_admin: false,
                 iat: expect.any(Number),
-                id: expect.any(Number)
+                id: expect.any(Number),
+                role_id: 2
             })
         });
 
@@ -75,7 +76,8 @@ describe('test for authentication routes', () => {
             "email": "tren@gmail.com", 
             "iat": expect.any(Number), 
             "id": expect.any(Number), 
-            "is_admin": false
+            "is_admin": false,
+            "role_id": 2
           });
         });
         

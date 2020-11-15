@@ -46,8 +46,8 @@ CREATE TABLE Droplists(
     created_at DATE NOT NULL DEFAULT CURRENT_DATE,
     "status" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    stocker_id INTEGER NOT NULL REFERENCES users,
-    forklift_driver_id INTEGER REFERENCES users,
+    stocker_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE ON UPDATE CASCADE,
+    forklift_driver_id INTEGER REFERENCES users ON DELETE SET NULL ON UPDATE CASCADE,
     department_id INTEGER NOT NULL REFERENCES departments
 );
 
