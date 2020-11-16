@@ -41,7 +41,7 @@ CREATE TABLE users (
 INSERT INTO users (first_name, last_name, email, "password", department_id, role_id) VALUES
     ('Trent', 'Luis', 'email@gmail.com', 'lolol', 1, 1);
 
-CREATE TABLE Droplists(
+CREATE TABLE droplists(
     id SERIAL PRIMARY KEY,
     created_at DATE NOT NULL DEFAULT CURRENT_DATE,
     "status" TEXT NOT NULL,
@@ -51,5 +51,17 @@ CREATE TABLE Droplists(
     department_id INTEGER NOT NULL REFERENCES departments
 );
 
-INSERT INTO Droplists(stocker_id, department_id, "status", "description") VALUES
+INSERT INTO droplists(stocker_id, department_id, "status", "description") VALUES
     (1, 1, 'not sent', 'todays list');
+
+CREATE TABLE items(
+    id SERIAL PRIMARY KEY,
+    steel_name TEXT NOT NULL,
+    row_letter VARCHAR(2) NOT NULL,
+    column_number INTEGER NOT NULL,
+    "description" TEXT,
+    droplist_id INTEGER NOT NULL REFERENCES droplists ON DELETE CASCADE ON UPDATE CASCADE 
+);
+
+INSERT INTO items(steel_name, row_letter, column_number, "description", droplist_id) VALUES
+    ('S409', 'A', 3, 'lamp', 1);
