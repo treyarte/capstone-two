@@ -66,7 +66,141 @@ describe('Droplist test routes', () => {
                 }
             )
         })
+
+        test('should get a specified droplist', async () => {
+            const resp =  await request(app).get(`/droplists/${d1.id}`).send({token: u2.token});
+            const testDroplist = await Droplist.get(d1.id);
+            
+            expect(resp.statusCode).toBe(200);
+            expect(resp.body).toEqual(testDroplist);
+        });
+
+        test('should create a new droplist', async () => {
+            const resp = await request(app).post('/droplists/new').send({
+                stocker_id: u2.id, 
+                description: 'Create new test droplist', 
+                department_id: 3,
+                token: u2.token
+            });
+
+            expect(resp.statusCode).toBe(201);
+            expect(resp.body).toEqual({
+                droplist: {
+                    id: expect.any(Number),
+                    status: 'not sent',
+                    description: 'Create new test droplist',
+                    stocker: {
+                        id: u2.id,
+                        first_name: u2.first_name,
+                        last_name: u2.last_name
+                    },
+                    department: {
+                        id: expect.any(Number),
+                        name: 'hardlines' 
+                    },
+                    items: []
+                }
+            })
+        });
+
+        test('should update a droplist', async () => {
+            const resp = await request(app).patch(`/droplists/${d1.id}/update`).send({
+                description: 'updated',
+                department_id: 1,
+                token: u2.token
+            });
+
+            expect(resp.statusCode).toBe(200);
+            expect(resp.body).toEqual({
+                droplist: {
+                    id: expect.any(Number),
+                    status: 'not sent',
+                    description: 'updated',
+                    stocker: {
+                        id: u2.id,
+                        first_name: u2.first_name,
+                        last_name: u2.last_name
+                    },
+                    department: {
+                        id: expect.any(Number),
+                        name: 'produce' 
+                    },
+                    items: []
+                }
+            });
+        });
         
+        test('should delete a droplist', async () => {
+            const resp = await request(app).delete(`/droplists/${d1.id}/delete`).send({token: u2.token});
+
+            expect(resp.statusCode).toBe(200);
+            expect(resp.body).toEqual({
+                message: 'droplist successfully deleted'
+            });
+        });
+
+        test('should add a forklift driver to a droplist', async () => {
+            const resp = await request(app).patch(`/droplists/${d1.id}/send`).send({forklift_driver_id: u1.id, token: u2.token});
+
+            expect(resp.statusCode).toBe(200);
+            expect(resp.body).toEqual({
+                droplist: {
+                    id: expect.any(Number),
+                    stocker: {
+                        id: u2.id,
+                        first_name: u2.first_name,
+                        last_name: u2.last_name
+                    },
+                    description: 'test list',
+                    status: 'not sent',
+                    forklift_driver:{
+                        id: u1.id,
+                        first_name: u1.first_name,
+                        last_name: u1.last_name
+                    },
+                    department: {
+                        id: 2,
+                        name: 'sundries'
+                    },
+                    items: []
+                }
+            })
+        });
+
+
+        test('should accept a droplist', async () => {
+            
+           await request(app).patch(`/droplists/${d1.id}/send`).send({forklift_driver_id: u1.id, token: u2.token});
+
+            const resp = await request(app).patch(`/droplists/${d1.id}/accept`).send({token: u1.token});
+
+            expect(resp.statusCode).toBe(200);
+            expect(resp.body).toEqual({
+                message: 'droplist successfully accepted'
+            });
+        });
+        
+        test('should decline a droplist', async () => {
+            await request(app).patch(`/droplists/${d1.id}/send`).send({forklift_driver_id: u1.id, token: u2.token});
+            const resp = await request(app).patch(`/droplists/${d1.id}/decline`).send({token: u1.token});
+
+            expect(resp.statusCode).toBe(200);
+            expect(resp.body).toEqual({
+                message: 'droplist decline'
+            });
+
+        });
+
+        test('should complete a droplist', async () => {
+            await request(app).patch(`/droplists/${d1.id}/send`).send({forklift_driver_id: u1.id, token: u2.token});
+            const resp = await request(app).patch(`/droplists/${d1.id}/complete`).send({token: u1.token});
+
+            expect(resp.statusCode).toBe(200);
+            expect(resp.body).toEqual({
+                message: 'droplist successfully completed'
+            });
+
+        });
     })
     
     

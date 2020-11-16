@@ -54,7 +54,7 @@ class Droplist {
     static async get(id){
 
         if(!await this.droplistExists(id)){
-            throw new Error("Droplist not found", 404);
+            throw new ExpressError("Droplist not found", 404);
         }
 
         const results = await db.query(`
@@ -121,10 +121,10 @@ class Droplist {
         return droplists;
     }
 
-    static async update(droplist_id, description, department_id){
-
+    static async update(data){
+        const {droplist_id, description, department_id} = data;
         if(!await this.droplistExists(droplist_id)){
-            throw new Error("Droplist not found", 404);
+            throw new ExpressError("Droplist not found", 404);
         }
 
         const results = await db.query(`
@@ -137,6 +137,7 @@ class Droplist {
     }
 
     static async delete(droplist_id){
+
         const results = await db.query('DELETE FROM droplists WHERE id = $1 RETURNING id', [droplist_id]);
 
         if(results.rows.length === 0){
@@ -151,7 +152,7 @@ class Droplist {
     static async changeStatus(status_key, droplist_id){
 
         if(!await this.droplistExists(droplist_id)){
-            throw new Error("Droplist not found", 404);
+            throw new ExpressError("Droplist not found", 404);
         }
 
         const statuses = {
@@ -174,7 +175,7 @@ class Droplist {
     static async addDriver(droplist_id, forklift_driver_id){
     
         if(!await this.droplistExists(droplist_id)){
-            throw new Error("Droplist not found", 404);
+            throw new ExpressError("Droplist not found", 404);
         }
 
         const results = await db.query(`

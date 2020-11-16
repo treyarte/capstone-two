@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {SECRET} = require('../config');
 const ExpressError = require('../helpers/expressError');
+const Droplist = require('../models/Droplist');
 
 /**
  * authenticates a valid jwt
@@ -54,10 +55,58 @@ function ensureAdmin(req, res, next){
     }
 }
 
+/**
+ * check if user has access to droplist
+ */
+async function droplistAccess(req, res, next){
+    const {id} = req.params;
+
+    const {droplist} = await Droplist.get(id);
+
+    if(droplist.forklift_driver){
+        if(droplist.forklift_driver.id === req.user.id){
+            return next();
+        }
+    }
+    if(droplist.stocker.id === req.user.id){
+        return next();
+    } else {
+        const error = new ExpressError('Unauthorized Access', 401);
+        return next(error);
+    }
+}
+
+/**
+ * check if a user is a stocker
+ */
+function isStocker(req, res, next){
+    if(req.user.role_id === 1){
+        return next();
+    } else {
+        const error = new ExpressError('Unauthorized Access', 401);
+        return next(error);
+    }
+}
+
+/**
+ * check if a user is a driver
+ */
+function isDriver(req, res, next){
+    if(req.user.role_id === 2){
+        return next();
+    } else {
+        const error = new ExpressError('Unauthorized Access', 401);
+        return next(error);
+    }
+}
+
 module.exports = {
     ensureAdmin,
     ensureCorrectUser,
     authenticateJWT,
     ensureLogIn,
-    authenticateJWT
+    authenticateJWT,
+    droplistAccess,
+    isStocker,
+    isDriver
 }

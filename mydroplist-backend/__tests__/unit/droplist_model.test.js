@@ -97,7 +97,7 @@ describe('Droplist model tests', () => {
     })
     
     test('should update a droplist', async () => {
-        const updatedDroplist = await Droplist.update(d1.id, "updated desc", 3);
+        const updatedDroplist = await Droplist.update({droplist_id: d1.id, description: "updated desc",department_id: 3});
 
         expect(updatedDroplist).toEqual({
             droplist: {
