@@ -2,11 +2,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const ExpressError = require('./helpers/ExpressError');
-const {authenticateJWT} = require('./middleware/auth')
+const {authenticateJWT, droplistAccess} = require('./middleware/auth')
 
 const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const droplistRoutes = require('./routes/droplists');
+const usersRoutes = require('./routes/users');
+const droplistsRoutes = require('./routes/droplists');
+const itemsRoutes = require('./routes/items');
 
 
 app.use(express.json());
@@ -17,8 +18,9 @@ app.use(cors());
 app.use(authenticateJWT);
 
 app.use('/', authRoutes)
-app.use('/users', userRoutes);
-app.use('/droplists', droplistRoutes);
+app.use('/users', usersRoutes);
+app.use('/droplists', droplistsRoutes);
+droplistsRoutes.use('/:id/items', itemsRoutes);
 
 /**404 error handler */
 app.use( (req, res, next) => {
