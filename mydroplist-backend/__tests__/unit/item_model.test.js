@@ -82,7 +82,45 @@ describe('Item model test', () => {
             }
         });
     });
+
+    test('should get all items from a droplist', async () => {
+        const items = await Item.getAll(d1.id);
+        expect(items).toEqual({
+            items: [
+                {
+                    id: expect.any(Number),
+                    steel_name: 'S409', 
+                    row_letter: 'A', 
+                    column_number: 1, 
+                    description: 'raspberries', 
+                    droplist_id: expect.any(Number)
+                }
+            ]
+        })
+    });
     
+    test('should update an item', async () => {
+        const item = await Item.update(
+                {item_id: i1.id, steel_name: '110', row_letter: 'B', column_number: 3, description: 'ice cream'}
+            );
+        expect(item).toEqual({
+            item:{
+
+                id: expect.any(Number),
+                steel_name: '110', 
+                row_letter: 'B', 
+                column_number: 3, 
+                description: 'ice cream', 
+                droplist_id: expect.any(Number)
+            }
+        });
+    });
+
+    test('should delete an item', async () => {
+        const deleted = await Item.delete(i1.id);
+
+        expect(deleted).toEqual(true);
+    })
     
 
     afterAll(async () => {
