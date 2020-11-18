@@ -5,10 +5,10 @@ const {ensureLogIn, droplistAccess, isStocker} = require('../middleware/auth');
 const Item = require('../models/Item');
 
 
-router.get('/', ItemController.index);
-router.get('/:item_id', ItemController.details);
-router.post('/new', ItemController.new); 
-router.patch('/:item_id', ItemController.update);
-router.delete('/:item_id', ItemController.remove);
+router.get('/', ensureLogIn, droplistAccess, isStocker,  ItemController.index);
+router.get('/:item_id', ensureLogIn, droplistAccess, isStocker, ItemController.details);
+router.post('/new', ensureLogIn, droplistAccess, isStocker, ItemController.new); 
+router.patch('/:item_id', ensureLogIn, droplistAccess, isStocker, ItemController.update);
+router.delete('/:item_id', ensureLogIn, droplistAccess, isStocker, ItemController.remove);
 
 module.exports = router;

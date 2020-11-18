@@ -94,7 +94,7 @@ describe('items test routes', () => {
     });
 
     test('should get back all items in a droplist', async () => {
-        const resp = await request(app).get(`/droplists/${d1.id}/items`);
+        const resp = await request(app).get(`/droplists/${d1.id}/items`).send({token: u2.token});
 
         expect(resp.statusCode).toBe(200);
         expect(resp.body).toEqual({
@@ -106,7 +106,7 @@ describe('items test routes', () => {
     });
 
     test('should get a specific item', async () => {
-        const resp = await request(app).get(`/droplists/${d1.id}/items/${i1.id}`);
+        const resp = await request(app).get(`/droplists/${d1.id}/items/${i1.id}`).send({token: u2.token});
 
         expect(resp.statusCode).toBe(200);
         expect(resp.body).toEqual({

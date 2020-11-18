@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const {SECRET} = require('../config');
 const ExpressError = require('../helpers/expressError');
 const Droplist = require('../models/Droplist');
+const db = require('../db');
 
 /**
  * authenticates a valid jwt
@@ -61,6 +62,12 @@ function ensureAdmin(req, res, next){
 async function droplistAccess(req, res, next){
     const {id} = req.params;
 
+    const exists = await droplistExists(id)
+        if(!exists){
+            const error = new ExpressError("Droplist not found", 404);
+            return next(error);
+        }
+
     const {droplist} = await Droplist.get(id);
 
     if(droplist.forklift_driver){
@@ -98,6 +105,12 @@ function isDriver(req, res, next){
         const error = new ExpressError('Unauthorized Access', 401);
         return next(error);
     }
+}
+
+async function droplistExists(droplist_id){
+    const results = await db.query('SELECT id FROM droplists WHERE id = $1', [droplist_id]);
+
+    return (results.rows.length > 0);
 }
 
 module.exports = {

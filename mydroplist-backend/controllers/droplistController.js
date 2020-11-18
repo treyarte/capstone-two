@@ -29,7 +29,6 @@ class droplistController{
         try {
             //make sure to create middleware to check if the role is a stocker
             const stocker_id = req.user.id;
-
             const droplist = await Droplist.new({...req.body, stocker_id})
 
             return res.status(201).json(droplist);

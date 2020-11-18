@@ -1,6 +1,7 @@
 const db = require('../db');
 const ExpressError = require('../helpers/expressError');
 const User = require('./User');
+const Item = require('./Item');
 
 class Droplist {
     /**
@@ -23,6 +24,8 @@ class Droplist {
         const department = await db.query(`
             SELECT id, department FROM departments WHERE id = $1
         `, [droplistResults.department_id]);
+
+
 
         const droplist = {
             droplist: {
@@ -52,11 +55,6 @@ class Droplist {
     // }
 
     static async get(id){
-
-        if(!await this.droplistExists(id)){
-            throw new ExpressError("Droplist not found", 404);
-        }
-
         const results = await db.query(`
             SELECT droplists.id, description, status, department, droplists.department_id, users.id as stocker_id, users.first_name,
             users.last_name, droplists.forklift_driver_id
@@ -69,7 +67,7 @@ class Droplist {
         const droplistResults = results.rows[0];
 
        
-      
+        const {items} = await Item.getAll(droplistResults.id);
 
         const droplist = {
             droplist: {
@@ -85,7 +83,7 @@ class Droplist {
                     id: droplistResults.department_id,
                     name: droplistResults.department 
                 },
-                items: []
+                items: [...items]
             }
         }
 
@@ -123,9 +121,6 @@ class Droplist {
 
     static async update(data){
         const {droplist_id, description, department_id} = data;
-        if(!await this.droplistExists(droplist_id)){
-            throw new ExpressError("Droplist not found", 404);
-        }
 
         const results = await db.query(`
             UPDATE droplists SET description = $1, department_id = $2
@@ -151,10 +146,6 @@ class Droplist {
 
     static async changeStatus(status_key, droplist_id){
 
-        if(!await this.droplistExists(droplist_id)){
-            throw new ExpressError("Droplist not found", 404);
-        }
-
         const statuses = {
             NOT_SENT: 'not sent',
             SENT: 'sent',
@@ -174,10 +165,6 @@ class Droplist {
 
     static async addDriver(droplist_id, forklift_driver_id){
     
-        if(!await this.droplistExists(droplist_id)){
-            throw new ExpressError("Droplist not found", 404);
-        }
-
         const results = await db.query(`
             UPDATE droplists SET forklift_driver_id = $1
             WHERE droplists.id = $2 
@@ -186,13 +173,6 @@ class Droplist {
 
         return results.rows[0].id
     }
-
-    static async droplistExists(droplist_id){
-        const results = await db.query('SELECT id FROM droplists WHERE id = $1', [droplist_id]);
-
-        return (results.rows.length > 0);
-    }
-
 }
 
 
