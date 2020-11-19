@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {Card, CardItem, Body, H3, Badge, Text, Grid, Row, Col} from 'native-base'
 

@@ -3,20 +3,18 @@ import React, {useState} from 'react';
 import { StyleSheet, View } from 'react-native';
 import {useFonts} from 'expo-font';
 import {Ionicons} from '@expo/vector-icons'
-import {Container, Header, Content, Footer, FooterTab, Icon, Button, Text} from 'native-base'
-import DropListContainer from './screens/DropListContainer';
-import Home from './screens/Home';
-import AddDroplistForm from './screens/AddDroplistForm';
-import {NavigationContainer} from '@react-navigation/native'
-import {createStackNavigator} from '@react-navigation/stack'
+import AppNavigator from './routes/AppNavigator';
+import {AppLoading} from 'expo'
 
 
 
 export default function App() {
 
-  const [department, setDepartment] = useState({selected: 1});
+  const [token, setToken] = useState(null);
 
-  const Stack = createStackNavigator();
+  const handleToken = (t) =>{
+    setToken(t);
+  }
 
   const [loaded] = useFonts({
     Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -24,19 +22,9 @@ export default function App() {
       ...Ionicons.font,
   });
 
-  if(!loaded){
-    return null;
-  }
 
-  return (
-   <NavigationContainer>
-     <Stack.Navigator initialRouteName="Home">
-       <Stack.Screen name="Home" component={Home} options={{title: 'My DropList'}}/>
-       <Stack.Screen name="Droplists" component={DropListContainer} />
-       <Stack.Screen name="AddDroplist" component={AddDroplistForm} options={{title: 'Create Droplist'}}/>
-     </Stack.Navigator>
-   </NavigationContainer>
-  );
+  return !loaded ? <AppLoading/> : <AppNavigator token={token} handleToken={handleToken}/>
+
 }
 
 const styles = StyleSheet.create({
