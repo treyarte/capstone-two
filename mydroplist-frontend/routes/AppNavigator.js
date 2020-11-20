@@ -3,14 +3,15 @@ import {NavigationContainer} from '@react-navigation/native'
 import SignedOutStack from './SignedOutStack';
 import SignedInStack from './SignedInStack';
 
-const AppNavigator = ({token, handleToken}) => {
+
+const AppNavigator = ({token}) => {
     
     return (
         <NavigationContainer>
         {token !== null ? (
             <SignedInStack/>
         ) : (
-            <SignedOutStack handleToken={handleToken}/>
+            <SignedOutStack />
         )}
         </NavigationContainer>
     )

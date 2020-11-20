@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import { Form, Item, Input, Label, Picker, Icon } from 'native-base';
+import { Form, Item, Input, Label, Picker, Icon, Button, Text } from 'native-base';
 import CustomPicker from './CustomPicker';
 
 
-const AddDroplistForm = ({departments}) => {
+const AddDroplistForm = ({departments, navigation}) => {
     const [department, setDepartment] = useState({selected: 1});
 
     const handlePickerChange = (value) => {
@@ -34,7 +34,9 @@ const AddDroplistForm = ({departments}) => {
 
                     </Picker>
             </Item>
-
+            <Button onPress={() => navigation.goBack()}>
+                <Text>Cancel</Text>
+            </Button>
           </Form>
     )
 }

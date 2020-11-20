@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Container,Content, Form, Item, Input, Label, Button, Text } from 'native-base'
 import useFields from '../hooks/useFields';
+import {AuthContext} from '../components/context';
+
 const Login = () => {
+
+    const {signIn} = useContext(AuthContext);
+
     const INITIAL_STATE = {email: '', password: ''}
 
     const [formData, handleChange, resetForm] = useFields(INITIAL_STATE);
@@ -14,7 +19,7 @@ const Login = () => {
     });
 
     const handleSubmit = () => {
-        
+        signIn();
     }
 
     return (
@@ -33,7 +38,7 @@ const Login = () => {
                             onChangeText={(text) => handleChange(text, 'password')}
                         />
                     </Item>
-                    <Button dark style={{marginTop: 20, alignSelf: 'flex-end'}}>
+                    <Button dark style={{marginTop: 20, alignSelf: 'flex-end'}} onPress={handleSubmit}>
                         <Text>Login</Text>
                     </Button>
                 </Form>

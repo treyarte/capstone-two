@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Container,Content, Form, Item, Input, Label, Button, Text, Picker } from 'native-base'
 import useFields from '../hooks/useFields';
+import {AuthContext} from '../components/context'
 
 const SignUp = () => {
+
+    const {signUp} = useContext(AuthContext);
+
+    const handleSignUp = () => {
+        signUp();
+    }
 
     const INITIAL_STATE = {email: '', firstName: '', lastName: '', department: '', role: '', password: '', passwordConfirmation: ''}
 
@@ -78,7 +85,7 @@ const SignUp = () => {
                             onChangeText={(text) => handleChange(text, 'passwordConfirmation')}
                         />
                     </Item>
-                    <Button dark style={{marginTop: 20, alignSelf: 'flex-end'}}>
+                    <Button dark style={{marginTop: 20, alignSelf: 'flex-end'}} onPress={handleSignUp}>
                         <Text>Sign Up</Text>
                     </Button>
                 </Form>
