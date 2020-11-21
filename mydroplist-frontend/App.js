@@ -6,32 +6,59 @@ import {Ionicons} from '@expo/vector-icons'
 import AppNavigator from './routes/AppNavigator';
 import {AppLoading} from 'expo';
 import {AuthContext} from './components/context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const STORAGE_KEY = 'mydroplist_token'
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState(null);
 
   const authContext = useMemo(() => ({
-    signIn: () => {
-      setIsLoading(false);
-      setToken('nnnn');
+    signIn: async (token) => {
+      try {
+        const jsonToken = JSON.stringify({token});
+        setIsLoading(false);
+        setToken(token);
+        await AsyncStorage.setItem(STORAGE_KEY, jsonToken);
+      } catch (error) {
+        console.error(error);
+      }
     },
-    signUp: () => {
-      setIsLoading(false);
-      setToken('nnnn');
+    signUp: async (token) => {
+      try {
+        const jsonToken = JSON.stringify({token});
+        setIsLoading(false);
+        setToken(token);
+        await AsyncStorage.setItem(STORAGE_KEY, jsonToken);
+      } catch (error) {
+        console.error(error);
+      }
     },
-    signOut: () => {
-      setIsLoading(false);
-      setToken(null);
+    signOut: async () => {
+      try {
+        setIsLoading(false);
+        setToken(token);
+        await AsyncStorage.removeItem(STORAGE_KEY);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }), []);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000)
-  }, [])
+    async function getStorageToken(){
+      try {
+        const token = await AsyncStorage.getItem(STORAGE_KEY);
+        setToken(token);
+      } catch (error) {
+        setToken(null);
+      }
+      setIsLoading(true);
+    }
+    setIsLoading(false);
+    getStorageToken();
+  }, [token])
 
   const handleToken = (t) =>{
     setToken(t);

@@ -1,21 +1,37 @@
 import React, {useContext} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Alert} from 'react-native';
 import {Container,Content, Form, Item, Input, Label, Button, Text, Picker } from 'native-base'
 import useFields from '../hooks/useFields';
+import useErrors from '../hooks/useErrors';
 import {AuthContext} from '../components/context'
+import DroplistApi from '../helpers/DroplistApi';
+import DropList from './DropList';
 
 const SignUp = () => {
 
     const {signUp} = useContext(AuthContext);
 
-    const handleSignUp = () => {
-        signUp();
-    }
-
-    const INITIAL_STATE = {email: '', firstName: '', lastName: '', department: '', role: '', password: '', passwordConfirmation: ''}
+    const INITIAL_STATE = {email: '', firstName: '', lastName: '', department: 1, role: 1, password: '', passwordConfirmation: ''}
 
     const [formData, handleChange, resetForm] = useFields(INITIAL_STATE);
     
+    const [errors, handleErrors] = useErrors([])
+    
+    const handleSignUp = async () => {
+        try {
+            const {email, firstName, lastName, department, role, password} = formData;
+            
+            let token = await DroplistApi.signUp(email, password, firstName, lastName, department, role);
+
+            signUp(token);
+
+        } catch (error) {
+            const errorsArr = error[0].errors ? error[0].errors : error;
+            handleErrors(errorsArr);
+            Alert.alert("Errors: ", errorsArr.join("\n"));
+        }
+    }
+
     const styles = StyleSheet.create({
         form: {
             marginHorizontal: 20
@@ -77,14 +93,14 @@ const SignUp = () => {
                         />
                     </Item>
 
-                    <Item floatingLabel>
+                    {/* <Item floatingLabel>
                         <Label>Confirm Password</Label>
                         <Input 
                             secureTextEntry={true} 
                             value={formData.passwordConfirmation}
                             onChangeText={(text) => handleChange(text, 'passwordConfirmation')}
                         />
-                    </Item>
+                    </Item> */}
                     <Button dark style={{marginTop: 20, alignSelf: 'flex-end'}} onPress={handleSignUp}>
                         <Text>Sign Up</Text>
                     </Button>

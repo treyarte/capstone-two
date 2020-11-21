@@ -1,8 +1,10 @@
 import React, {useContext} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet, Alert} from 'react-native';
 import {Container,Content, Form, Item, Input, Label, Button, Text } from 'native-base'
 import useFields from '../hooks/useFields';
+import useErrors from '../hooks/useErrors';
 import {AuthContext} from '../components/context';
+import DroplistApi from '../helpers/DroplistApi';
 
 const Login = () => {
 
@@ -10,7 +12,9 @@ const Login = () => {
 
     const INITIAL_STATE = {email: '', password: ''}
 
-    const [formData, handleChange, resetForm] = useFields(INITIAL_STATE);
+    const [formData, handleChange] = useFields(INITIAL_STATE);
+
+    const [errors, handleErrors] = useErrors([])
     
     const styles = StyleSheet.create({
         form: {
@@ -18,9 +22,22 @@ const Login = () => {
         }
     });
 
-    const handleSubmit = () => {
-        signIn();
+    const handleSubmit = async () => {
+        try {
+            const {email, password} = formData;
+
+            const token = await DroplistApi.login(email, password);
+
+            signIn(token);
+
+        } catch (error) {
+            const errorsArr = error[0].errors ? error[0].errors : error;
+            handleErrors(errorsArr);
+            Alert.alert("Errors: ", errorsArr.join("\n"));
+        }
     }
+
+    
 
     return (
         <Container>
