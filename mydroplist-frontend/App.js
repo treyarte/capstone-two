@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useMemo, useState} from 'react';
 import { StyleSheet, View } from 'react-native';
 import {useFonts} from 'expo-font';
@@ -6,6 +5,7 @@ import {Ionicons} from '@expo/vector-icons'
 import AppNavigator from './routes/AppNavigator';
 import {AppLoading} from 'expo';
 import {AuthContext} from './components/context';
+import {TokenContext} from './components/tokenContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeToken from './helpers/storeToken';
 
@@ -50,14 +50,10 @@ export default function App() {
         console.error(error);
       }
     },
-
-    /**
-     * Get user data from stored json web token
-     */
-    getToken: () => {
-      return token;
-    }
   }), []);
+
+
+
 
   useEffect(() => {
     ( async () => {
@@ -88,7 +84,9 @@ export default function App() {
     <>
       { !loaded ? (<AppLoading/>) : (
       <AuthContext.Provider value={authContext}>
+        <TokenContext.Provider value={token}>
           <AppNavigator token={token}/>
+        </TokenContext.Provider>
         </AuthContext.Provider>
         )
       }

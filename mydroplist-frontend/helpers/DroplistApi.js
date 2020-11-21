@@ -21,6 +21,19 @@ class DroplistApi {
         }
     }
 
+    static async getAllDroplist(token){
+        try {
+            let res = await axios.get(`${BASE_URL}/droplists`, {
+                params: {
+                  "token": "bar"
+                }
+              });
+            return res.data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     static errorMessages(error){
         console.error('APIS ERROR:', error);
         let message = error.response.data.message;

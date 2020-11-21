@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native'
 import SignedOutStack from './SignedOutStack';
 import SignedInStack from './SignedInStack';
+import {TokenContext} from '../components/tokenContext'
 
+const AppNavigator = () => {
 
-const AppNavigator = ({token}) => {
+    const token = useContext(TokenContext);
 
     return (
         <NavigationContainer>
@@ -15,6 +17,6 @@ const AppNavigator = ({token}) => {
         )}
         </NavigationContainer>
     )
-}
+} 
 
 export default AppNavigator;

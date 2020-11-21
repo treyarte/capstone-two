@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, FlatList, Button, Modal} from 'react-native';
+import {View, FlatList, Button, Alert} from 'react-native';
 import DropList from './DropList';
+import DroplistApi from '../helpers/DroplistApi';
 import CustomPicker from './CustomPicker';
-import {AuthContext} from '../components/context';
+import {TokenContext} from '../components/tokenContext'
 import jwt_decode from 'jwt-decode';
 
 
@@ -10,37 +11,19 @@ const DroplistIndex = ({navigation}) => {
 
     const [department, setDepartment] = useState({selected: 2});
     
-    const {getToken} = useContext(AuthContext);
+    const token = useContext(TokenContext);
 
-    
-
-    const INITIAL_STATE =
-        [
-            {id: 1, title: 'Droplist 1', date: 'Aug, 8', status: 'not sent', items: 10, department_id: 2},
-            {id: 3, title: 'Droplist 1', date: 'Aug, 8', status: 'not sent', items: 10, department_id: 2},
-            {id: 4, title: 'Droplist 1', date: 'Aug, 8', status: 'not sent', items: 10, department_id: 2},
-            {id: 5, title: 'Droplist 1', date: 'Aug, 8', status: 'not sent', items: 10, department_id: 3},
-            {id: 6, title: 'Droplist 1', date: 'Aug, 8', status: 'not sent', items: 10, department_id: 3},
-            {id: 2, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 4},
-            {id: 7, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 4},
-            {id: 8, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 4},
-            {id: 9, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 5},
-            {id: 10, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 11, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 12, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 1},
-            {id: 13, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 14, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 15, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 16, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 17, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 18, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 19, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 20, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-            {id: 21, title: 'Droplist 2', date: 'Aug, 10', status: 'sent', items: 5, department_id: 2},
-        ]
+    const INITIAL_STATE = [];
     const [droplists, setdroplists] = useState(INITIAL_STATE);
   
-
+    useEffect(() => {
+        async function getDroplists(){
+            const userDroplists = await DroplistApi.getAllDroplist(token);
+            console.log("droplists: ", token);
+            setdroplists( () => [...userDroplists]);
+        }
+        getDroplists();
+    }, []);
     
     const renderItem = ({item}) => (
         <DropList droplist ={item}/>
@@ -88,7 +71,7 @@ const DroplistIndex = ({navigation}) => {
                     margin: 15,
                 }
             }>
-            <Button color='#323232' title="+" onPress={goToDroplist} />
+
         </View>
         </View>
     )

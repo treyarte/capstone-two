@@ -33,7 +33,7 @@ const DropList = ({droplist}) => {
                     <Grid>
                         <Row>
                             <Col>
-                                <H3>{droplist.title}</H3>
+                                <H3>{droplist.description}</H3>
                             </Col>
                             <Col>
                             <Badge info  style={droplistStyles.status}>
@@ -42,11 +42,7 @@ const DropList = ({droplist}) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Text>{droplist.date}</Text>
-                        </Row>
-                        <Row>
-                            {/* Array count here */}
-                            <Text>Items: {droplist.items}</Text>
+                            <Text>{droplist.created_at}</Text>
                         </Row>
                     </Grid>
                     </Body>
