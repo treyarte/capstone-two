@@ -1,15 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, FlatList, Button, Modal} from 'react-native';
-import {Card, CardItem, Body, H2, Picker, Form} from 'native-base';
 import DropList from './DropList';
 import CustomPicker from './CustomPicker';
-import { ScrollView } from 'react-native-gesture-handler';
+import {AuthContext} from '../components/context';
+import jwt_decode from 'jwt-decode';
 
 
-
-const DropListContainer = ({navigation}) => {
+const DroplistIndex = ({navigation}) => {
 
     const [department, setDepartment] = useState({selected: 2});
+    
+    const {getToken} = useContext(AuthContext);
+
+    
 
     const INITIAL_STATE =
         [
@@ -93,4 +96,4 @@ const DropListContainer = ({navigation}) => {
   
 }
 
-export default DropListContainer;
+export default DroplistIndex;

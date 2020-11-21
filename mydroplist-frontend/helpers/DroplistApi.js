@@ -6,7 +6,7 @@ class DroplistApi {
     static async login(email, password){
         try {
             let res = await axios.post(`${BASE_URL}/login`, {email, password});
-            return res.token;
+            return res.data.token;
         } catch (error) {
            this.errorMessages(error);
         }
@@ -15,6 +15,7 @@ class DroplistApi {
     static async signUp(email, password, first_name, last_name, department_id, role_id){
         try {
             let res = await axios.post(`${BASE_URL}/sign-up`, {email, password, first_name, last_name, department_id, role_id})
+            return res.data.token
         } catch (error) {
             this.errorMessages(error);
         }

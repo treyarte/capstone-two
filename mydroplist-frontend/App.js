@@ -7,6 +7,7 @@ import AppNavigator from './routes/AppNavigator';
 import {AppLoading} from 'expo';
 import {AuthContext} from './components/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import storeToken from './helpers/storeToken';
 
 const STORAGE_KEY = 'mydroplist_token'
 
@@ -15,22 +16,27 @@ export default function App() {
   const [token, setToken] = useState(null);
 
   const authContext = useMemo(() => ({
-    signIn: async (token) => {
+    signIn: async (t) => {
       try {
-        const jsonToken = JSON.stringify({token});
+        
         setIsLoading(false);
-        setToken(token);
-        await AsyncStorage.setItem(STORAGE_KEY, jsonToken);
+        
+        await storeToken(t);
+        
+        setToken(t);
+      
       } catch (error) {
         console.error(error);
       }
     },
-    signUp: async (token) => {
+    signUp: async (t) => {
       try {
-        const jsonToken = JSON.stringify({token});
+        
         setIsLoading(false);
-        setToken(token);
-        await AsyncStorage.setItem(STORAGE_KEY, jsonToken);
+
+        await storeToken(t)
+
+        setToken(t);
       } catch (error) {
         console.error(error);
       }
@@ -38,31 +44,38 @@ export default function App() {
     signOut: async () => {
       try {
         setIsLoading(false);
-        setToken(token);
+        setToken(null);
         await AsyncStorage.removeItem(STORAGE_KEY);
       } catch (error) {
         console.error(error);
       }
+    },
+
+    /**
+     * Get user data from stored json web token
+     */
+    getToken: () => {
+      return token;
     }
   }), []);
 
   useEffect(() => {
-    async function getStorageToken(){
+    ( async () => {
       try {
         const token = await AsyncStorage.getItem(STORAGE_KEY);
-        setToken(token);
+        if(!token){
+          setToken(null);
+        } else {
+          setToken(JSON.parse(token).token);
+        }
       } catch (error) {
+        console.error(error);
         setToken(null);
       }
       setIsLoading(true);
-    }
+    })()
     setIsLoading(false);
-    getStorageToken();
-  }, [token])
-
-  const handleToken = (t) =>{
-    setToken(t);
-  }
+  }, [])
 
   const [loaded] = useFonts({
     Roboto: require('native-base/Fonts/Roboto.ttf'),

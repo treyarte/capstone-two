@@ -5,7 +5,7 @@ import SignedInStack from './SignedInStack';
 
 
 const AppNavigator = ({token}) => {
-    
+
     return (
         <NavigationContainer>
         {token !== null ? (

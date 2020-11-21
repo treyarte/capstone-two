@@ -1,5 +1,5 @@
 import React from 'react';
-import DroplistIndex from '../screens/DropListContainer';
+import DroplistIndex from '../screens/DroplistIndex';
 import AddDroplistForm from '../screens/AddDroplistForm';
 import {createStackNavigator} from '@react-navigation/stack';
 import { Button, Icon } from 'native-base';
