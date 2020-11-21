@@ -10,7 +10,8 @@ const db = require('../db');
  */
 function authenticateJWT(req, res, next){
     try {
-        const {token} = req.body;
+        const token = req.body.token || req.query.token;
+        
         const payload = jwt.verify(token, SECRET)
         req.user = payload;
         return next();
