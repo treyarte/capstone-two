@@ -2,7 +2,8 @@ import React, {useEffect} from 'react';
 import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {Card, CardItem, Body, H3, Badge, Text, Grid, Row, Col} from 'native-base'
 
-const DropList = ({droplist}) => {
+const DropList = ({droplist, departments}) => {
+    const date = new Date(droplist.created_at);
 
     const droplistStyles = StyleSheet.create({
         container: {
@@ -42,7 +43,14 @@ const DropList = ({droplist}) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Text>{droplist.created_at}</Text>
+                            <Badge success style={{marginVertical: 5}}>
+                                <Text>
+                                    {departments[droplist.department_id - 1]}
+                                </Text>
+                                </Badge>
+                        </Row>
+                        <Row>
+                            <Text>{`${date.getFullYear()}-${date.getDay()}-${date.getMonth()}`}</Text>
                         </Row>
                     </Grid>
                     </Body>

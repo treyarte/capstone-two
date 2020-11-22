@@ -25,7 +25,7 @@ class DroplistApi {
         try {
             let res = await axios.get(`${BASE_URL}/droplists`, {
                 params: {
-                  "token": "bar"
+                  token: token
                 }
               });
             return res.data;

@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {View, FlatList, Button, Alert} from 'react-native';
+import {Spinner, Container, Text} from 'native-base';
 import DropList from './DropList';
 import DroplistApi from '../helpers/DroplistApi';
 import CustomPicker from './CustomPicker';
@@ -9,7 +10,9 @@ import jwt_decode from 'jwt-decode';
 
 const DroplistIndex = ({navigation}) => {
 
-    const [department, setDepartment] = useState({selected: 2});
+    const [departments, setDepartments] = useState(
+        ['produce', 'sundries', 'hardlines',  'seasonal',  'freezer',  'dairy', 'receiving',  'deli']
+    );
     
     const token = useContext(TokenContext);
 
@@ -19,18 +22,20 @@ const DroplistIndex = ({navigation}) => {
     useEffect(() => {
         async function getDroplists(){
             const userDroplists = await DroplistApi.getAllDroplist(token);
-            console.log("droplists: ", token);
-            setdroplists( () => [...userDroplists]);
+            console.log("droplists: ", userDroplists);
+            setdroplists( () => [...userDroplists.droplists]);
         }
         getDroplists();
     }, []);
     
     const renderItem = ({item}) => (
-        <DropList droplist ={item}/>
+        <DropList droplist ={item} departments={departments}/>
     )
     
     const renderHeader = () => (
-        <CustomPicker department={department} setDepartment={setDepartment}/>
+       
+           <View></View>
+       
     );
 
     const AddDroplist = (formData) => {
@@ -48,31 +53,25 @@ const DroplistIndex = ({navigation}) => {
       }
 
     return(
-
         <View>
-            <FlatList 
+            {
+                !droplists ? (
+                   <Text>No droplists found</Text>
+                ) : 
+            (
+                <FlatList 
                 initialNumToRender={4}
                 maxToRenderPerBatch={3}
                 stickyHeaderIndices={[0]}
                 ListHeaderComponent={renderHeader}
                 removeClippedSubviews={true}
-                data={droplists.filter((d) => d.department_id === department.selected)}
+                data={droplists}
                 renderItem={renderItem}
                 keyExtractor={(item)=> item.id.toString()}
-            />
-        <View style={
-                {
-                    width: 100, 
-                    
-                    position: 'absolute', 
-                    bottom: 0, 
-                    right: 1,  
-                    alignSelf: 'flex-end', 
-                    margin: 15,
-                }
-            }>
+                />
+            )
 
-        </View>
+            }
         </View>
     )
 
