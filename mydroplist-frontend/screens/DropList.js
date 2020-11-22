@@ -9,13 +9,14 @@ const DropList = ({droplist, departments}) => {
         container: {
             flex: 1,
             padding: 5,
-            flexDirection: 'row',
+            flexDirection: 'column',
             flexWrap: 'wrap',
             justifyContent: 'flex-start',
         },
     
-        status: {
-            alignSelf: 'flex-end'
+        badge: {
+            
+
         }
     });
 
@@ -33,25 +34,26 @@ const DropList = ({droplist, departments}) => {
                     <Body style={droplistStyles.container}>
                     <Grid>
                         <Row>
-                            <Col>
-                                <H3>{droplist.description}</H3>
-                            </Col>
-                            <Col>
-                            <Badge info  style={droplistStyles.status}>
-                                <Text>{droplist.status}</Text>
-                            </Badge>
-                            </Col>
+                                <H3>{droplist.description}</H3> 
                         </Row>
                         <Row>
-                            <Badge success style={{marginVertical: 5}}>
-                                <Text>
-                                    {departments[droplist.department_id - 1]}
-                                </Text>
+                            <Text style={{marginVertical: 10}}>Date: {`${date.getFullYear()}-${date.getDay()}-${date.getMonth()}`}</Text>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Badge info  style={droplistStyles.badge}>
+                                    <Text>{droplist.status}</Text>
                                 </Badge>
+                            </Col>
+                            <Col>
+                                <Badge success style={droplistStyles.badge}>
+                                    <Text>
+                                        {departments[droplist.department_id - 1]}
+                                    </Text>
+                                </Badge>
+                            </Col>
                         </Row>
-                        <Row>
-                            <Text>{`${date.getFullYear()}-${date.getDay()}-${date.getMonth()}`}</Text>
-                        </Row>
+                     
                     </Grid>
                     </Body>
                 </CardItem>
