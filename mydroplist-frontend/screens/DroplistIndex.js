@@ -1,12 +1,12 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, FlatList, Button, Alert} from 'react-native';
-import {Spinner, Container, Text} from 'native-base';
+import {View, FlatList, Alert, TouchableOpacity} from 'react-native';
+import {Spinner, Container, Text,} from 'native-base';
 import DropList from './DropList';
 import DroplistApi from '../helpers/DroplistApi';
 import CustomPicker from './CustomPicker';
 import {TokenContext} from '../components/tokenContext'
-import jwt_decode from 'jwt-decode';
-
+import {SwipeListView} from 'react-native-swipe-list-view'
+import CustomSwipeableButton from '../components/CustomSwipeableButton';
 
 const DroplistIndex = ({navigation}) => {
 
@@ -22,7 +22,6 @@ const DroplistIndex = ({navigation}) => {
     useEffect(() => {
         async function getDroplists(){
             const userDroplists = await DroplistApi.getAllDroplist(token);
-            console.log("droplists: ", userDroplists);
             setdroplists( () => [...userDroplists.droplists]);
         }
         getDroplists();
@@ -38,19 +37,26 @@ const DroplistIndex = ({navigation}) => {
        
     );
 
-    const AddDroplist = (formData) => {
-        const {id, title, date, status, items, department_id} = formData
-        setdroplists( 
-            (d) => [
-                ...d,
-                {id, title, date, status, items, department_id}
-            ]
-        )
+    const sendDroplist = (droplist_id) => {
+        Alert.alert("droplist id", `${droplist_id}`)
     }
 
-    const goToDroplist = () => {
-        navigation.navigate('AddDroplist')
-      }
+      const renderHiddenItem = (data, rowMap) => (
+        <View style={{flex: 1, flexDirection: 'row'}}>
+
+         <View style={{flex: 1, alignItems: 'flex-start'}} >
+          <CustomSwipeableButton data={data} rowMap={rowMap} label={'Send'} color={'#393e46'} fn={sendDroplist} />
+         </View>
+
+          <View style={{flex: 1, alignItems: 'flex-end'}}>
+            
+          <CustomSwipeableButton data={data} rowMap={rowMap} label={'Delete'} color={'#ea5455'} fn={sendDroplist} />
+          </View>
+
+        </View>
+       
+    );
+
 
     return(
         <View>
@@ -59,7 +65,7 @@ const DroplistIndex = ({navigation}) => {
                    <Text>No droplists found</Text>
                 ) : 
             (
-                <FlatList 
+                <SwipeListView 
                 initialNumToRender={4}
                 maxToRenderPerBatch={3}
                 stickyHeaderIndices={[0]}
@@ -67,7 +73,13 @@ const DroplistIndex = ({navigation}) => {
                 removeClippedSubviews={true}
                 data={droplists}
                 renderItem={renderItem}
+                renderHiddenItem={renderHiddenItem}
                 keyExtractor={(item)=> item.id.toString()}
+                leftOpenValue={60}
+                rightOpenValue={-60}
+                
+                previewOpenValue={-40}
+                previewOpenDelay={3000}
                 />
             )
 

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, TouchableWithoutFeedback, Alert} from 'react-native';
 import {Card, CardItem, Body, H3, Badge, Text, Grid, Row, Col} from 'native-base'
 
 const DropList = ({droplist, departments}) => {
@@ -26,7 +26,7 @@ const DropList = ({droplist, departments}) => {
 
 
     return(
-        <TouchableOpacity
+        <TouchableWithoutFeedback 
             onPress={onPressHandle}
         >
             <Card>
@@ -58,7 +58,7 @@ const DropList = ({droplist, departments}) => {
                     </Body>
                 </CardItem>
             </Card>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback >
     )
 }
 
