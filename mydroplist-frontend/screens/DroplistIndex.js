@@ -7,6 +7,7 @@ import CustomPicker from './CustomPicker';
 import {TokenContext} from '../components/tokenContext'
 import {SwipeListView} from 'react-native-swipe-list-view'
 import CustomSwipeableButton from '../components/CustomSwipeableButton';
+import { useIsFocused } from '@react-navigation/native'
 
 const DroplistIndex = ({navigation}) => {
 
@@ -18,15 +19,23 @@ const DroplistIndex = ({navigation}) => {
 
     const INITIAL_STATE = [];
     const [droplists, setdroplists] = useState(INITIAL_STATE);
-  
+    const isFocused = useIsFocused()
+
     useEffect(() => {
         async function getDroplists(){
             const userDroplists = await DroplistApi.getAllDroplist(token);
             setdroplists( () => [...userDroplists.droplists]);
         }
         getDroplists();
-    }, []);
+    }, [isFocused]);
     
+    const handleDelete = async (droplist_id) => {
+        const isDeleted = await DroplistApi.deleteDroplist(token, droplist_id);
+        
+        setdroplists(droplists.filter(d => d.id !== droplist_id));
+        
+    }
+
     const renderItem = ({item}) => (
         <DropList droplist ={item} departments={departments}/>
     )
@@ -50,7 +59,7 @@ const DroplistIndex = ({navigation}) => {
 
           <View style={{flex: 1, alignItems: 'flex-end'}}>
             
-          <CustomSwipeableButton data={data} rowMap={rowMap} label={'Delete'} color={'#ea5455'} fn={sendDroplist} />
+          <CustomSwipeableButton data={data} rowMap={rowMap} label={'Delete'} color={'#ea5455'} fn={handleDelete} />
           </View>
 
         </View>

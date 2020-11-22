@@ -30,7 +30,34 @@ class DroplistApi {
               });
             return res.data;
         } catch (error) {
-            console.error(error);
+            this.errorMessages(error);
+        }
+    }
+
+    static async addDroplist(token, description, department_id){
+        try {
+            let res = await axios.post(`${BASE_URL}/droplists/new`, {token, description, department_id});
+            return res.data;
+        } catch (error) {
+            this.errorMessages(error);
+        }
+    }
+
+    static async deleteDroplist(token, droplist_id){
+        try {
+            let res = await axios.delete(`${BASE_URL}/droplists/${droplist_id}/delete`, {params: {token}});
+            return res.data
+        } catch (error) {
+            this.errorMessages(error);
+        }
+    }
+
+    static async sendDroplist(token, droplist_id, forklift_driver_id){
+        try {
+            let res = await axios.post(`${BASE_URL}/droplists/${droplist_id}/send`, {token, forklift_driver_id});
+            return res.data
+        } catch (error) {
+            this.errorMessages(error);
         }
     }
 

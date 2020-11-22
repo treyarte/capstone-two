@@ -16,6 +16,7 @@ const DropList = ({droplist, departments}) => {
     
         badge: {
             
+            marginRight: 5
 
         }
     });
@@ -37,21 +38,21 @@ const DropList = ({droplist, departments}) => {
                                 <H3>{droplist.description}</H3> 
                         </Row>
                         <Row>
-                            <Text style={{marginVertical: 10}}>Date: {`${date.getFullYear()}-${date.getDay()}-${date.getMonth()}`}</Text>
+                            <Text style={{marginVertical: 10}}>Date: {`${date.toDateString()}`}</Text>
                         </Row>
                         <Row>
-                            <Col>
+                        
                                 <Badge info  style={droplistStyles.badge}>
                                     <Text>{droplist.status}</Text>
                                 </Badge>
-                            </Col>
-                            <Col>
+                     
+                    
                                 <Badge success style={droplistStyles.badge}>
                                     <Text>
                                         {departments[droplist.department_id - 1]}
                                     </Text>
                                 </Badge>
-                            </Col>
+                    
                         </Row>
                      
                     </Grid>
