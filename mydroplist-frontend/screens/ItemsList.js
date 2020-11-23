@@ -25,7 +25,7 @@ const ItemsList = ({itemsList}) => {
         },
         fontText: {
             margin: 10,
-            fontSize: 17,
+            fontSize: 20,
             fontWeight: 'bold'
         },
         noItems: {

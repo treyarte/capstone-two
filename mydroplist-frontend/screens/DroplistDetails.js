@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext, useLayoutEffect} from 'react';
 import {StyleSheet} from 'react-native'
-import {Text, Container, Content, Spinner, Button, Icon} from 'native-base';
+import {Text, Container, Content, Spinner, Button, Icon, View} from 'native-base';
 import DroplistApi from '../helpers/DroplistApi';
 import {TokenContext} from '../components/tokenContext'
 import ItemList from '../screens/ItemsList';
@@ -23,10 +23,17 @@ const DroplistScreen = ({route, navigation}) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-              <Button icon transparent>
-                  <Icon name='more' color='#222831'/>
+            <View style={{flexDirection: 'row'}}>
+              <Button  transparent>
+                 <Text style={{color: '#222831'}}>
+                     Edit
+                 </Text>
               </Button>
-            ),
+              <Button Icon transparent>
+                  <Icon name="add" style={{color: '#222831'}}/>
+              </Button>
+            </View>
+            )
           });
     });
 

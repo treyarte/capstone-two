@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, TouchableWithoutFeedback} from 'react-native';
-import {Card, CardItem, Body, H3, Badge, Text, Grid, Row, Col} from 'native-base'
+import {Card, CardItem, Body, H3, Badge, Text, Grid, Row, Col, Button, View} from 'native-base'
 
 const DropList = ({droplist, departments, navigateToDetails}) => {
     const date = new Date(droplist.created_at);
@@ -15,9 +15,10 @@ const DropList = ({droplist, departments, navigateToDetails}) => {
         },
     
         badge: {
-            
             marginRight: 5
-
+        },
+        editBtn: {
+         
         }
     });
 
@@ -52,8 +53,8 @@ const DropList = ({droplist, departments, navigateToDetails}) => {
                                         {departments[droplist.department_id - 1]}
                                     </Text>
                                 </Badge>
-                    
                         </Row>
+                    
                      
                     </Grid>
                     </Body>
