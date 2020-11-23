@@ -36,21 +36,23 @@ const DroplistIndex = ({navigation}) => {
         
     }
 
-    const renderItem = ({item}) => (
-        <DropList droplist ={item} departments={departments}/>
-    )
     
-    const renderHeader = () => (
-       
-           <View></View>
-       
-    );
-
     const sendDroplist = (droplist_id) => {
         Alert.alert("droplist id", `${droplist_id}`)
     }
 
-      const renderHiddenItem = (data, rowMap) => (
+
+    const navigateToDetails = (id, description) => {
+        navigation.navigate('DroplistDetails', {id, title: description});
+    }
+
+    const renderItem = ({item}) => (
+        <DropList droplist ={item} departments={departments} navigateToDetails={navigateToDetails}/>
+    )
+    
+        
+
+    const renderHiddenItem = (data, rowMap) => (
         <View style={{flex: 1, flexDirection: 'row'}}>
 
          <View style={{flex: 1, alignItems: 'flex-start'}} >
@@ -66,7 +68,6 @@ const DroplistIndex = ({navigation}) => {
        
     );
 
-
     return(
         <View>
             {
@@ -75,20 +76,17 @@ const DroplistIndex = ({navigation}) => {
                 ) : 
             (
                 <SwipeListView 
-                initialNumToRender={4}
-                maxToRenderPerBatch={3}
-                stickyHeaderIndices={[0]}
-                ListHeaderComponent={renderHeader}
-                removeClippedSubviews={true}
-                data={droplists}
-                renderItem={renderItem}
-                renderHiddenItem={renderHiddenItem}
-                keyExtractor={(item)=> item.id.toString()}
-                leftOpenValue={60}
-                rightOpenValue={-60}
-                
-                previewOpenValue={-40}
-                previewOpenDelay={3000}
+                    initialNumToRender={4}
+                    maxToRenderPerBatch={3}
+                    removeClippedSubviews={true}
+                    data={droplists}
+                    renderItem={renderItem}
+                    keyExtractor={(item)=> item.id.toString()}
+                    renderHiddenItem={renderHiddenItem}
+                    leftOpenValue={60}
+                    rightOpenValue={-60}
+                    previewOpenValue={-40}
+                    previewOpenDelay={3000}
                 />
             )
 

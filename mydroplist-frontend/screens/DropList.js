@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, TouchableWithoutFeedback, Alert} from 'react-native';
+import React from 'react';
+import {StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Card, CardItem, Body, H3, Badge, Text, Grid, Row, Col} from 'native-base'
 
-const DropList = ({droplist, departments}) => {
+const DropList = ({droplist, departments, navigateToDetails}) => {
     const date = new Date(droplist.created_at);
 
     const droplistStyles = StyleSheet.create({
@@ -22,7 +22,7 @@ const DropList = ({droplist, departments}) => {
     });
 
     const onPressHandle = () => {
-        Alert.alert("pressed");
+        navigateToDetails(droplist.id, droplist.description);
     }
 
 

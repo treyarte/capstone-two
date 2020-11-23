@@ -1,6 +1,7 @@
 import React from 'react';
 import DroplistIndex from '../screens/DroplistIndex';
 import AddDroplistForm from '../screens/AddDroplistForm';
+import DroplistDetails from '../screens/DroplistDetails';
 import {createStackNavigator} from '@react-navigation/stack';
 import { Button, Icon } from 'native-base';
 import {createDrawerNavigator} from '@react-navigation/drawer'
@@ -18,6 +19,7 @@ function homeStack ({navigation}) {
                     </Button>
                 )
             }}/>
+            <Screen name='DroplistDetails'  component={DroplistDetails} options={({route}) => ({title: route.params.title})} />
             
         </Navigator>
     )

@@ -34,6 +34,15 @@ class DroplistApi {
         }
     }
 
+    static async getDroplist(token, id){
+        try {
+            let res = await axios.get(`${BASE_URL}/droplists/${id}`, {params: {token}});
+            return res.data
+        } catch (error) {
+            this.errorMessages(error);
+        }
+    }
+
     static async addDroplist(token, description, department_id){
         try {
             let res = await axios.post(`${BASE_URL}/droplists/new`, {token, description, department_id});
