@@ -2,10 +2,12 @@ import React from 'react';
 import DroplistIndex from '../screens/DroplistIndex';
 import AddDroplistForm from '../screens/AddDroplistForm';
 import DroplistDetails from '../screens/DroplistDetails';
+import EditDroplist from '../screens/EditDroplistForm';
 import {createStackNavigator} from '@react-navigation/stack';
 import { Button, Icon } from 'native-base';
 import {createDrawerNavigator} from '@react-navigation/drawer'
 import DrawerContent from '../screens/DrawerContent';
+import AddItem from '../screens/AddItem';
 
 
 function homeStack ({navigation}) {
@@ -20,6 +22,8 @@ function homeStack ({navigation}) {
                 )
             }}/>
             <Screen name='DroplistDetails'  component={DroplistDetails} options={({route}) => ({title: route.params.title})} />
+            <Screen name='EditDroplist' component={EditDroplist} options={{title: 'Edit Droplist'}}/>
+            <Screen name='AddItem' component={AddItem} options={{title: 'Add Item'}}/>
             
         </Navigator>
     )
