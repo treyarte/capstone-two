@@ -31,10 +31,14 @@ const DroplistScreen = ({route, navigation}) => {
 
     const deleteItem = async (item_id) => {
         
+        const filteredDroplist = {...droplist}
+        filteredDroplist.droplist.items = droplist.droplist.items.filter(i => i.id !== item_id);
+        
+        setDroplist( () => filteredDroplist);
         let message = await DroplistApi.deleteItem(token, id, item_id);
         setMessage(() => message);
-        navigation.navigate('Spinner');
-        navigation.pop();
+        // navigation.navigate('Spinner');
+        // navigation.pop();
         
     }
 

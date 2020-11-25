@@ -39,7 +39,18 @@ const ItemsList = ({itemsList, deleteItem, editItem}) => {
         editItem(id)
     }
 
-    const handleDelete = (id) => {
+    const handleDelete = (id, item) => {
+        
+        const index = items.findIndex( i => i.title === item.steel_name);
+        
+        const filteredItems = items
+        console.log(filteredItems);
+        filteredItems[index].data = items[index].data.filter(i => i.id !== id) 
+        if(filteredItems[index].data.length === 0){
+            filteredItems.splice(index, 1);
+        }
+        setItems(() =>filteredItems);
+        
         deleteItem(id);
     }
 
@@ -62,7 +73,7 @@ const ItemsList = ({itemsList, deleteItem, editItem}) => {
                         </Button>
                     </Col>
                     <Col>
-                        <Button transparent onPress={() => handleDelete(item.id)}>
+                        <Button transparent onPress={() => handleDelete(item.id, item)}>
                             <H3 style={{color: '#ea5455'}}>Delete</H3>
                         </Button>
                     </Col>
