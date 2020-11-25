@@ -9,7 +9,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer'
 import DrawerContent from '../screens/DrawerContent';
 import AddItem from '../screens/AddItem';
 import SpinnerScreen from '../screens/SpinnerScreen';
-
+import EditItem from '../screens/EditItem';
 
 function homeStack ({navigation}) {
     const {Navigator, Screen} = createStackNavigator();
@@ -25,6 +25,7 @@ function homeStack ({navigation}) {
             <Screen name='DroplistDetails'  component={DroplistDetails} options={({route}) => ({title: route.params.title})} />
             <Screen name='EditDroplist' component={EditDroplist} options={{title: 'Edit Droplist'}}/>
             <Screen name='AddItem' component={AddItem} options={{title: 'Add Item'}}/>
+            <Screen name='EditItem' component={EditItem} options={{title: 'Edit Item'}}/>
             <Screen name='Spinner' component={SpinnerScreen}/>
             
         </Navigator>

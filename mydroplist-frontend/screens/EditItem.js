@@ -1,19 +1,22 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {Alert} from 'react-native';
-import { Form, Item, Input, Label, Picker, Button, Text, Container, Content, Row, Col, Spinner } from 'native-base';
+import { Form, Item, Input, Label, Picker, Button, Text, Container, Content, Row, Col } from 'native-base';
 import {StyleSheet} from 'react-native';
 import useFields from '../hooks/useFields';
 import useErrors from '../hooks/useErrors';
 import DroplistApi from '../helpers/DroplistApi';
 import {TokenContext} from '../components/tokenContext';
 
-const EditDroplistFrom = ({ navigation, route}) => {
-
-    const [droplist, setDroplist] = useState(null)
-   
-    const INITIAL_STATE = {description: '', department_id: ''}
-
+const EditItem = ({ navigation, route}) => {
+    const INITIAL_STATE = {steel_name: '', row_letter: 'A', column_number: '', description: ''}
+    
     const [formData, setFormData] = useState(INITIAL_STATE);
+
+    const {droplist_id, item_id} = route.params;
+
+    const [ errors, handleErrors] =  useErrors()
+
+    const token = useContext(TokenContext);
 
     const handleChange = (value, name) => {
         
@@ -27,40 +30,40 @@ const EditDroplistFrom = ({ navigation, route}) => {
         setFormData(INITIAL_STATE);
     };
 
-    const {id} = route.params;
-
-    const [ errors, handleErrors] =  useErrors()
-
-    const token = useContext(TokenContext);
 
     const handleSubmit = async () => {
         try {
-            const {description, department_id} = formData;
-
-            const droplist = await DroplistApi.editDroplist(token,id, {description, department_id});    
             
-            resetFormData();
+            const item = await DroplistApi.editItem(token, droplist_id, item_id, formData);
 
-            navigation.navigate("DroplistIndex");
- 
+            resetFormData();
+            
+            navigation.navigate("DroplistDetails", {item});
+
+            
         } catch (error) {
             const errorsArr = error[0].errors ? error[0].errors : error;
             handleErrors(errorsArr);
             Alert.alert("Errors: ", errorsArr.join("\n"));
         }
+        
+
     }
 
     useEffect (() => {
         (async () => {
-            const droplistData = await DroplistApi.getDroplist(token, id);
-            setDroplist(() => (droplistData.droplist));
+
+            const droplistData = await DroplistApi.getItem(token, droplist_id, item_id);
             setFormData((fData) => ({
                 ...fData,
-                'description': droplistData.droplist.description,
-                'department_id': droplistData.droplist.department.id
+                'description': droplistData.item.description,
+                'steel_name': droplistData.item.steel_name,
+                'row_letter': droplistData.item.row_letter,
+                'column_number': `${droplistData.item.column_number}`,
               }));
         })()
     }, []);
+
 
     const styles = StyleSheet.create({
         form: {
@@ -77,36 +80,37 @@ const EditDroplistFrom = ({ navigation, route}) => {
         }
     });
 
-
-
-
     return (
 
         <Container>
             <Content>
-                {
-                    droplist !== null ?                
                 <Form style={styles.form}>
                     <Item floatingLabel>
-                        <Label>Description</Label>
-                        <Input value={formData.description} onChangeText={(text) => handleChange(text, 'description')} />
+                        <Label>Steel Name</Label>
+                        <Input value={formData.steel_name} onChangeText={(text) => handleChange(text, 'steel_name')} />
                     </Item>
                     <Item  picker style={styles.dropDown}>
                         <Picker
                         style={styles.dropDownText}
                         placeholderStyle={{ color: "#bfc6ea" }}
-                        placeholder='department'
+                        placeholder='Row'
                         mode="dropdown"
-                        selectedValue={parseInt(formData.department_id)}
-                        onValueChange={(val) => handleChange(val, 'department_id')}
+                        selectedValue={formData.row_letter}
+                        onValueChange={(val) => handleChange(val, 'row_letter')}
                     >
-                    <Picker.Item label="Produce" value={1}/>
-                    <Picker.Item label="Hardlines" value={2}/>
-                    <Picker.Item label="Freezer" value={3}/>
-                    <Picker.Item label="Seasonal" value={4}/>
-                    <Picker.Item label="Sundries" value={5}/>
-
-                    </Picker>
+                            <Picker.Item label="A" value='A'/>
+                            <Picker.Item label="B" value='B'/>
+                            <Picker.Item label="C" value='C'/>
+                        </Picker>
+                    </Item>
+                    <Item floatingLabel>
+                        <Label>Column #</Label>
+                        <Input value={formData.column_number} 
+                        onChangeText={(text) => handleChange(text, 'column_number')} keyboardType="numeric"/>
+                    </Item>
+                    <Item floatingLabel>
+                        <Label>Description</Label>
+                        <Input value={formData.description} onChangeText={(text) => handleChange(text, 'description')} />
                     </Item>
                     <Row>
                         <Col>
@@ -116,18 +120,15 @@ const EditDroplistFrom = ({ navigation, route}) => {
                         </Col>
                         <Col>
                             <Button success style={{marginTop: 20, alignSelf: 'flex-end'}} onPress={handleSubmit}>
-                                <Text>Save</Text>
+                                <Text>Edit</Text>
                             </Button>
                         </Col>
                        
                     </Row>
                 </Form>
-                :
-                <Spinner color='#000'/>
-                }
             </Content>
         </Container>
     )
 }
 
-export default EditDroplistFrom
+export default EditItem

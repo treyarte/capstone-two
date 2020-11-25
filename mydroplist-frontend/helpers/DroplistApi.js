@@ -80,6 +80,15 @@ class DroplistApi {
         }
     }
 
+    static async getItem(token,droplist_id, id){
+        try {
+            let res = await axios.get(`${BASE_URL}/droplists/${droplist_id}/items/${id}`, {params: {token}});
+            return res.data;
+        } catch (error) {
+            this.errorMessages(error);
+        }
+    }
+
     static async addItem(token, id, formData){
         try {
             const {steel_name, row_letter, column_number, description} = formData;
@@ -89,6 +98,17 @@ class DroplistApi {
             this.errorMessages(error);
         }
     }
+
+    static async editItem(token, droplist_id, id, formData){
+        try {
+            const {steel_name, row_letter, column_number, description} = formData;
+            let res = await axios.patch(`${BASE_URL}/droplists/${droplist_id}/items/${id}`, {token, steel_name, row_letter, column_number, description});
+            return res.data;
+        } catch (error) {
+            this.errorMessages(error);
+        }
+    }
+
 
     static async deleteItem(token, droplist_id, item_id){
         try {

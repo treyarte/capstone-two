@@ -15,6 +15,7 @@ const DroplistScreen = ({route, navigation}) => {
     const [message, setMessage] = useState('')
 
     const token = useContext(TokenContext);
+
     const handleEditButton = () => {
         navigation.navigate('EditDroplist', {id});
     }
@@ -23,6 +24,9 @@ const DroplistScreen = ({route, navigation}) => {
         navigation.navigate('AddItem', {id});
     }
 
+    const editItem = (item_id) => {
+        navigation.navigate('EditItem', {droplist_id: id, item_id});
+    }
 
 
     const deleteItem = async (item_id) => {
@@ -35,7 +39,7 @@ const DroplistScreen = ({route, navigation}) => {
     }
 
     useEffect( () => {
-        console.log('I am runnign?');
+        
         async function getDetails(){
             const droplistData = await DroplistApi.getDroplist(token, id);
             setDroplist(() => (droplistData));
@@ -81,7 +85,7 @@ const DroplistScreen = ({route, navigation}) => {
             </Content>
                      :
                         
-                        <ItemList deleteItem={deleteItem} itemsList={droplist.droplist.items}/>
+                        <ItemList editItem={editItem} deleteItem={deleteItem} itemsList={droplist.droplist.items}/>
                     
                 }
         </Container>
