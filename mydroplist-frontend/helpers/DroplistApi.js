@@ -90,6 +90,15 @@ class DroplistApi {
         }
     }
 
+    static async deleteItem(token, droplist_id, item_id){
+        try {
+            let res = await axios.delete(`${BASE_URL}/droplists/${droplist_id}/items/${item_id}`, {params: {token}});
+            return res.data;
+        } catch (error) {
+            this.errorMessages(error);
+        }
+    }
+
     static errorMessages(error){
         console.error('APIS ERROR:', error);
         let message = error.response.data.message;

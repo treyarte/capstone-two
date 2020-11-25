@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, SafeAreaView,SectionList, StyleSheet} from 'react-native'
 import {H3, Button, Row, Col} from 'native-base';
 
-const ItemsList = ({itemsList}) => {
+const ItemsList = ({itemsList, deleteItem}) => {
 
     const [items, setItems] = useState(formatItems(itemsList));
 
@@ -33,7 +33,11 @@ const ItemsList = ({itemsList}) => {
             marginTop: 100,
             alignSelf: 'center'
         }
-    })
+    });
+
+    const handleDelete = (id) => {
+        deleteItem(id);
+    }
 
     // console.log(items);
     const renderItem = ({item}) => (
@@ -54,7 +58,7 @@ const ItemsList = ({itemsList}) => {
                         </Button>
                     </Col>
                     <Col>
-                        <Button transparent>
+                        <Button transparent onPress={() => handleDelete(item.id)}>
                             <H3 style={{color: '#ea5455'}}>Delete</H3>
                         </Button>
                     </Col>

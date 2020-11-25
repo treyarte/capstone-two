@@ -6,15 +6,15 @@ import DroplistApi from '../helpers/DroplistApi';
 import {TokenContext} from '../components/tokenContext'
 import ItemList from '../screens/ItemsList';
 import { set } from 'react-native-reanimated';
-
+import {} from '@react-navigation/native'
 
 const DroplistScreen = ({route, navigation}) => {
-    const {id, items} = route.params;
+    const {id} = route.params;
     
     const [droplist, setDroplist] = useState(null);
+    const [message, setMessage] = useState('')
 
     const token = useContext(TokenContext);
-
     const handleEditButton = () => {
         navigation.navigate('EditDroplist', {id});
     }
@@ -23,18 +23,29 @@ const DroplistScreen = ({route, navigation}) => {
         navigation.navigate('AddItem', {id});
     }
 
+
+
+    const deleteItem = async (item_id) => {
+        
+        let message = await DroplistApi.deleteItem(token, id, item_id);
+        setMessage(() => message);
+        navigation.navigate('Spinner');
+        navigation.pop();
+        
+    }
+
     useEffect( () => {
-      
+        console.log('I am runnign?');
         async function getDetails(){
             const droplistData = await DroplistApi.getDroplist(token, id);
-            setDroplist(() => (droplistData.droplist));
+            setDroplist(() => (droplistData));
         }
         const unsubscribe = navigation.addListener("focus", () => {
             setDroplist(null);
             getDetails();
         })
         return unsubscribe;
-    }, [navigation])
+    }, [navigation,setDroplist])
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -70,7 +81,7 @@ const DroplistScreen = ({route, navigation}) => {
             </Content>
                      :
                         
-                        <ItemList itemsList={droplist.items}/>
+                        <ItemList deleteItem={deleteItem} itemsList={droplist.droplist.items}/>
                     
                 }
         </Container>
