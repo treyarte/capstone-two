@@ -71,8 +71,8 @@ describe('items test routes', () => {
 
     test('should create a new item and return the droplist of that item', async () => {
         const resp = await request(app).post(`/droplists/${d1.id}/items/new`).send({
-            steel_name: 'S409',
-            row_letter: 'A', 
+            steel_name: 's409',
+            row_letter: 'a', 
             column_number: 2, 
             description: 'strawberries',
             token: u2.token
@@ -83,8 +83,8 @@ describe('items test routes', () => {
                 item:
                     {
                         id: expect.any(Number),
-                        steel_name: 'S409',
-                        row_letter: 'A', 
+                        steel_name: 's409',
+                        row_letter: 'a', 
                         column_number: 2, 
                         description: 'strawberries',
                         droplist_id: expect.any(Number)
@@ -120,8 +120,8 @@ describe('items test routes', () => {
     
     test('should update a specified item', async () => {
         const updateItem = {
-            steel_name: 'Update test',
-            row_letter: 'C', 
+            steel_name: 'update test',
+            row_letter: 'c', 
             column_number: 10, 
             description: 'test item'
         }

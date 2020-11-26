@@ -61,12 +61,19 @@ class User {
      * Retrieves a list of users' first_name, last_name, department, role,  
      *  returns: users: [list of users]
      */
-    static async getAll(){
-        const results = await db.query(
-            `SELECT users.id, first_name, last_name, department, role FROM users 
-            INNER JOIN roles ON roles.id = users.role_id
-            INNER JOIN departments ON departments.id = users.department_id`
-        )
+    static async getAll(option = ""){
+        let baseQuery = `SELECT users.id, first_name, last_name, department, role FROM users 
+        INNER JOIN roles ON roles.id = users.role_id
+        INNER JOIN departments ON departments.id = users.department_id WHERE 1 = 1`
+        
+        if(option === 'stocker'){
+            baseQuery =  baseQuery + ' AND users.role_id = 1'
+        } else if(option === 'forklift_driver'){
+
+            baseQuery = baseQuery + ' AND users.role_id = 2'
+        }
+
+        const results = await db.query(baseQuery);
 
         return {users: results.rows}
     }

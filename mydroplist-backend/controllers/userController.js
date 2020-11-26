@@ -3,7 +3,8 @@ const User = require("../models/User");
 class UserController{
     async getUsers(req, res, next){
         try {
-            const users = await User.getAll();
+            const {option} = req.query;
+            const users = await User.getAll(option);
             return res.json(users);
         } catch (error) {
             return next(error);
