@@ -38,7 +38,7 @@ const DroplistIndex = ({navigation}) => {
 
     
     const sendDroplist = (droplist_id) => {
-        Alert.alert("droplist id", `${droplist_id}`)
+       navigation.navigate('SendDroplist', {id: droplist_id});
     }
 
 

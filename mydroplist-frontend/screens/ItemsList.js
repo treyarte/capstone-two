@@ -54,7 +54,6 @@ const ItemsList = ({itemsList, deleteItem, editItem}) => {
         deleteItem(id);
     }
 
-    // console.log(items);
     const renderItem = ({item}) => (
         <View style={styles.item}>
             <Row>

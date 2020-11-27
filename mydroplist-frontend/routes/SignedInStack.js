@@ -8,8 +8,8 @@ import { Button, Icon } from 'native-base';
 import {createDrawerNavigator} from '@react-navigation/drawer'
 import DrawerContent from '../screens/DrawerContent';
 import AddItem from '../screens/AddItem';
-import SpinnerScreen from '../screens/SpinnerScreen';
 import EditItem from '../screens/EditItem';
+import SendScreen from '../screens/SendScreen';
 
 function homeStack ({navigation}) {
     const {Navigator, Screen} = createStackNavigator();
@@ -26,7 +26,7 @@ function homeStack ({navigation}) {
             <Screen name='EditDroplist' component={EditDroplist} options={{title: 'Edit Droplist'}}/>
             <Screen name='AddItem' component={AddItem} options={{title: 'Add Item'}}/>
             <Screen name='EditItem' component={EditItem} options={{title: 'Edit Item'}}/>
-            <Screen name='Spinner' component={SpinnerScreen}/>
+            <Screen name='SendDroplist' component={SendScreen} options={{title: 'Send'}}/>
             
         </Navigator>
     )
