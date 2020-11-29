@@ -46,6 +46,10 @@ const DroplistIndex = ({navigation}) => {
         navigation.navigate('DroplistDetails', {id, title: description});
     }
 
+    const droplistWarning = (msg) => {
+        Alert.alert("Warning",msg);
+    }
+
     const renderItem = ({item}) => (
         <DropList droplist ={item} departments={departments} navigateToDetails={navigateToDetails}/>
     )
@@ -56,7 +60,15 @@ const DroplistIndex = ({navigation}) => {
         <View style={{flex: 1, flexDirection: 'row'}}>
 
          <View style={{flex: 1, alignItems: 'flex-start'}} >
-          <CustomSwipeableButton data={data} rowMap={rowMap} label={'Send'} color={'#393e46'} fn={sendDroplist} />
+         {
+            parseInt(data.item.num_items) <= 0 ? 
+            
+            <CustomSwipeableButton data={data} rowMap={rowMap} label={'Send'} color={'#393e46'} fn={() => droplistWarning("Droplist cannot be empty")} />
+            
+            :
+
+            <CustomSwipeableButton data={data} rowMap={rowMap} label={'Send'} color={'#393e46'} fn={sendDroplist} />
+         }
          </View>
 
           <View style={{flex: 1, alignItems: 'flex-end'}}>
