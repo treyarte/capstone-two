@@ -73,7 +73,7 @@ class DroplistApi {
 
     static async sendDroplist(token, droplist_id, forklift_driver_id){
         try {
-            let res = await axios.post(`${BASE_URL}/droplists/${droplist_id}/send`, {token, forklift_driver_id});
+            let res = await axios.patch(`${BASE_URL}/droplists/${droplist_id}/send`, {token, forklift_driver_id});
             return res.data;
         } catch (error) {
             this.errorMessages(error);

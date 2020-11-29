@@ -21,6 +21,12 @@ const SendScreen = ({route, navigation}) => {
 
     }, []);
 
+    const sendDroplist = async (forklift_driver_id) => {
+        
+        const droplist = await DroplistApi.sendDroplist(token, id, forklift_driver_id);
+        navigation.navigate('DroplistIndex');
+    }
+
     return (
         <Container>
                 {
@@ -31,7 +37,7 @@ const SendScreen = ({route, navigation}) => {
                     :
                     
                     <View>
-                    <ForkliftDriverList forkliftDrivers={forkliftDrivers}/>
+                    <ForkliftDriverList forkliftDrivers={forkliftDrivers} sendDroplist={sendDroplist}/>
                     </View>
                 }
         </Container>

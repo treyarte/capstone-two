@@ -2,8 +2,8 @@ import React from 'react';
 import {View, Text, SectionList, StyleSheet} from 'react-native';
 import {H3, Button} from 'native-base';
 
-const ForkliftDriverList = ({forkliftDrivers}) => {
-
+const ForkliftDriverList = ({forkliftDrivers, sendDroplist}) => {
+     
      forkliftDrivers = formatItems(forkliftDrivers);
 
     const styles = StyleSheet.create({
@@ -24,9 +24,14 @@ const ForkliftDriverList = ({forkliftDrivers}) => {
         }
     });
 
+    const handleSend = async (forklift_driver_id) => {
+        await sendDroplist(forklift_driver_id);
+    }
+
     const renderDriver = ({item}) => (
         <View>
             <H3>{`${item.first_name} ${item.last_name}`}</H3>
+            <Button onPress={() => handleSend(item.id)}><Text>Send</Text></Button>
         </View>
     )
     
@@ -36,6 +41,8 @@ const ForkliftDriverList = ({forkliftDrivers}) => {
             <H3 style={styles.titleText}>{department}</H3>
         </View>
     );
+
+
     
     return (
         <>
