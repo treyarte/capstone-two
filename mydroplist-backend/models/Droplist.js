@@ -164,12 +164,12 @@ class Droplist {
     }
 
     static async addDriver(droplist_id, forklift_driver_id){
-    
+        const SENT = 'sent'
         const results = await db.query(`
-            UPDATE droplists SET forklift_driver_id = $1
-            WHERE droplists.id = $2 
+            UPDATE droplists SET forklift_driver_id = $1, status=$2 
+            WHERE droplists.id = $3 
             RETURNING id
-        `, [forklift_driver_id, droplist_id]);
+        `, [forklift_driver_id, SENT, droplist_id]);
 
         return results.rows[0].id
     }
