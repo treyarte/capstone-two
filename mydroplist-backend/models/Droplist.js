@@ -106,9 +106,11 @@ class Droplist {
         const user_role = role_id === 1 ? 'stocker_id' : 'forklift_driver_id'
 
         const results = await db.query(`
-            SELECT status, droplists.department_id, droplists.id, droplists.created_at, droplists.description
-            FROM droplists 
+            SELECT status, droplists.department_id, droplists.id, droplists.created_at, 
+            droplists.description, COUNT(items.id) as num_items
+            FROM droplists LEFT JOIN items ON droplists.id = items.id 
             WHERE droplists.${user_role} = $1
+            GROUP BY droplists.id
         `, [user_id]);
 
         const droplists = {

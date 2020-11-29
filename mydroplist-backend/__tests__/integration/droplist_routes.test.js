@@ -61,6 +61,7 @@ describe('Droplist test routes', () => {
                             created_at: expect.any(String),
                             status: 'not sent',
                             department_id: expect.any(Number),
+                            num_items: "0"
                         }
                     ]
                 }
@@ -152,7 +153,7 @@ describe('Droplist test routes', () => {
                         last_name: u2.last_name
                     },
                     description: 'test list',
-                    status: 'not sent',
+                    status: 'sent',
                     forklift_driver:{
                         id: u1.id,
                         first_name: u1.first_name,
