@@ -8,6 +8,8 @@ import {TokenContext} from '../components/tokenContext'
 import {SwipeListView} from 'react-native-swipe-list-view'
 import CustomSwipeableButton from '../components/CustomSwipeableButton';
 import { useIsFocused } from '@react-navigation/native'
+import jwt_decode from 'jwt-decode';
+
 
 const DroplistIndex = ({navigation}) => {
 
@@ -16,6 +18,7 @@ const DroplistIndex = ({navigation}) => {
     );
     
     const token = useContext(TokenContext);
+
 
     const INITIAL_STATE = [];
     const [droplists, setdroplists] = useState(INITIAL_STATE);
@@ -30,17 +33,13 @@ const DroplistIndex = ({navigation}) => {
     }, [isFocused]);
     
     const handleDelete = async (droplist_id) => {
-        const isDeleted = await DroplistApi.deleteDroplist(token, droplist_id);
-        
+        const isDeleted = await DroplistApi.deleteDroplist(token, droplist_id);   
         setdroplists(droplists.filter(d => d.id !== droplist_id));
-        
     }
-
     
     const sendDroplist = (droplist_id) => {
        navigation.navigate('SendDroplist', {id: droplist_id});
     }
-
 
     const navigateToDetails = (id, description) => {
         navigation.navigate('DroplistDetails', {id, title: description});
@@ -54,29 +53,55 @@ const DroplistIndex = ({navigation}) => {
         <DropList droplist ={item} departments={departments} navigateToDetails={navigateToDetails}/>
     )
     
-        
+
+    /**
+     * 
+     * Move to its own file
+     * forklift driver actions
+     */
+
+    const acceptDroplist = () => {
+
+    }
+
+    const rejectDroplist = () => {
+
+    }
 
     const renderHiddenItem = (data, rowMap) => (
+
         <View style={{flex: 1, flexDirection: 'row'}}>
+        {
+           jwt_decode(token).role_id === 1 ? 
+            <>
+                    <View style={{flex: 1, alignItems: 'flex-start'}} >
+                    {
+                        parseInt(data.item.num_items) <= 0 ? 
+                        
+                        <CustomSwipeableButton data={data} rowMap={rowMap} label={'Send'} color={'#393e46'} fn={() => droplistWarning("Droplist cannot be empty")} />
+                        :
+                        <CustomSwipeableButton data={data} rowMap={rowMap} label={'Send'} color={'#393e46'} fn={sendDroplist} />
+                    }
+                    </View>
 
-         <View style={{flex: 1, alignItems: 'flex-start'}} >
-         {
-            parseInt(data.item.num_items) <= 0 ? 
-            
-            <CustomSwipeableButton data={data} rowMap={rowMap} label={'Send'} color={'#393e46'} fn={() => droplistWarning("Droplist cannot be empty")} />
-            
-            :
+                    <View style={{flex: 1, alignItems: 'flex-end'}}>  
+                        <CustomSwipeableButton data={data} rowMap={rowMap} label={'Delete'} color={'#ea5455'} fn={handleDelete} />
+                    </View>
+            </>
 
-            <CustomSwipeableButton data={data} rowMap={rowMap} label={'Send'} color={'#393e46'} fn={sendDroplist} />
-         }
-         </View>
-
-          <View style={{flex: 1, alignItems: 'flex-end'}}>
-            
-          <CustomSwipeableButton data={data} rowMap={rowMap} label={'Delete'} color={'#ea5455'} fn={handleDelete} />
-          </View>
-
+          :
+            <>
+                <View style={{flex: 1, alignItems: 'flex-start'}} >
+                    <CustomSwipeableButton data={data} rowMap={rowMap} label={'Accept'} color={'#61b15a'} fn={sendDroplist} />
+                </View> 
+                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                    <CustomSwipeableButton data={data} rowMap={rowMap} label={'Reject'} color={'#ea5455'} fn={handleDelete} />
+                </View>
+            </>
+        }
         </View>
+
+
        
     );
 
@@ -95,8 +120,8 @@ const DroplistIndex = ({navigation}) => {
                     renderItem={renderItem}
                     keyExtractor={(item)=> item.id.toString()}
                     renderHiddenItem={renderHiddenItem}
-                    leftOpenValue={60}
-                    rightOpenValue={-60}
+                    leftOpenValue={75}
+                    rightOpenValue={-70}
                     previewOpenValue={-40}
                     previewOpenDelay={3000}
                 />
