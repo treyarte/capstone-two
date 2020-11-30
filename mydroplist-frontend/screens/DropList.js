@@ -15,7 +15,7 @@ const DropList = ({droplist, departments, navigateToDetails}) => {
         },
     
         badge: {
-            marginRight: 5
+            marginRight: 5,
         },
         editBtn: {
          
@@ -53,7 +53,7 @@ const DropList = ({droplist, departments, navigateToDetails}) => {
                                         {departments[droplist.department_id - 1]}
                                     </Text>
                                 </Badge>
-
+                            
                                 <Badge primary style={droplistStyles.badge}>
                                     <Text>Items: {droplist.num_items}</Text>
                                 </Badge>

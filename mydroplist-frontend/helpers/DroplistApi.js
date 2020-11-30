@@ -128,6 +128,24 @@ class DroplistApi {
         }
     }
 
+    static async acceptDroplist(token, id){
+        try{
+            let res = await axios.patch(`${BASE_URL}/droplists/${id}/accept`, {token});
+            return res.data;
+        } catch (error){
+            this.errorMessages(error);
+        }
+    }
+
+    static async rejectDroplist(token, id){
+        try{
+            let res = await axios.patch(`${BASE_URL}/droplists/${id}/reject`, {params: {token}});
+            return res.data;
+        } catch (error){
+            this.errorMessages(error);
+        }
+    }
+
     static errorMessages(error){
         console.error('APIS ERROR:', error);
         let message = error.response.data.message;

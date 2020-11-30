@@ -60,12 +60,24 @@ const DroplistIndex = ({navigation}) => {
      * forklift driver actions
      */
 
-    const acceptDroplist = () => {
+    const acceptDroplist = async (id) => {        
+        const droplist_id = await DroplistApi.acceptDroplist(token, id);
+        const updatedList = droplists.map( d => d);
 
+        const index = updatedList.findIndex((d) => d.id === id)
+        updatedList[index].status = 'accepted';
+
+        setdroplists(() => (updatedList));
     }
 
-    const rejectDroplist = () => {
+    const rejectDroplist = async (id) => {
+        const droplist_id = await DroplistApi.rejectDroplist(token, id);
+        const updatedList = droplists.map( d => d);
 
+        const index = updatedList.findIndex((d) => d.id === id)
+        updatedList[index].status = 'declined';
+
+        setdroplists(() => (updatedList));
     }
 
     const renderHiddenItem = (data, rowMap) => (
@@ -92,10 +104,10 @@ const DroplistIndex = ({navigation}) => {
           :
             <>
                 <View style={{flex: 1, alignItems: 'flex-start'}} >
-                    <CustomSwipeableButton data={data} rowMap={rowMap} label={'Accept'} color={'#61b15a'} fn={sendDroplist} />
+                    <CustomSwipeableButton data={data} rowMap={rowMap} label={'Accept'} color={'#61b15a'} fn={acceptDroplist} />
                 </View> 
                 <View style={{flex: 1, alignItems: 'flex-end'}}>
-                    <CustomSwipeableButton data={data} rowMap={rowMap} label={'Reject'} color={'#ea5455'} fn={handleDelete} />
+                    <CustomSwipeableButton data={data} rowMap={rowMap} label={'Decline'} color={'#ea5455'} fn={rejectDroplist} />
                 </View>
             </>
         }
