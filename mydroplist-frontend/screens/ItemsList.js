@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, SafeAreaView,SectionList, StyleSheet} from 'react-native'
 import {H3, Button, Row, Col} from 'native-base';
+import {TokenContext} from '../components/tokenContext';
+import jwt_Decode from 'jwt-decode';
 
 const ItemsList = ({itemsList, deleteItem, editItem}) => {
 
     const [items, setItems] = useState(formatItems(itemsList));
-
-
+    
+    const token = useContext(TokenContext);
 
     const styles = StyleSheet.create({
         title: {
@@ -65,18 +67,22 @@ const ItemsList = ({itemsList, deleteItem, editItem}) => {
                     </Text>
                 </Col>
                 </Row>
-                <Row style={{margin: 10}}>
-                    <Col>
-                        <Button transparent onPress={() => handleEditItem(item.id)}>
-                            <H3 style={{color: '#222831'}}>Edit</H3>
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button transparent onPress={() => handleDelete(item.id, item)}>
-                            <H3 style={{color: '#ea5455'}}>Delete</H3>
-                        </Button>
-                    </Col>
-            </Row>
+                {
+                    jwt_Decode(token).role_id === 1 &&
+                        <Row style={{margin: 10}}>
+                            <Col>
+                                <Button transparent onPress={() => handleEditItem(item.id)}>
+                                    <H3 style={{color: '#222831'}}>Edit</H3>
+                                </Button>
+                            </Col>
+                            <Col>
+                                <Button transparent onPress={() => handleDelete(item.id, item)}>
+                                    <H3 style={{color: '#ea5455'}}>Delete</H3>
+                                </Button>
+                            </Col>
+                        </Row>
+
+                }
         </View>
     )
 
