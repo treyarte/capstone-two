@@ -3,29 +3,28 @@ import {Text, Button, Icon, View} from 'native-base';
 
 const DroplistNavigationButtons = ({droplist, handleEditButton, handleAddButton}) => {
     return (
-        <View style={{flexDirection: 'row'}}>
-            {
-                droplist !== null ? 
-                    
-                    droplist.droplist.status !== 'not sent' ? 
-                    <Button disabled transparent  onPress={handleEditButton}>
-                        <Text style={{color: '#222831'}}>
-                            Edit
-                        </Text>
-                    </Button>
-                    :
-                    <Button  transparent  onPress={handleEditButton}>
-                        <Text style={{color: '#222831'}}>
-                            Edit
-                        </Text>
-                    </Button>
-                :
-                <></>
+        <>
+            {   
+                droplist !== null &&
+                <View style={{flexDirection: 'row'}}>
+                    {
+                    droplist.droplist.status !== 'completed' &&
+                    droplist.droplist.status !== 'accepted' &&
+                    <>
+                        <Button  transparent  onPress={handleEditButton}>
+                            <Text style={{color: '#222831'}}>
+                                Edit
+                            </Text>
+                        </Button>
+        
+                        <Button Icon transparent onPress={handleAddButton}>
+                            <Icon name="add" style={{color: '#222831'}}/>
+                        </Button>
+                    </>
+                    }
+                </View>
             }
-              <Button Icon transparent onPress={handleAddButton}>
-                  <Icon name="add" style={{color: '#222831'}}/>
-              </Button>
-            </View>
+        </>
     )
 }
 

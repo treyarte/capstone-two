@@ -6,7 +6,6 @@ import {TokenContext} from '../components/tokenContext'
 import ItemList from '../screens/ItemsList';
 import DroplistNavigationButtons from '../components/DroplistNavigationButtons';
 import jwt_decode from 'jwt-decode';
-import { color } from 'react-native-reanimated';
 
 const DroplistScreen = ({route, navigation}) => {
     const {id} = route.params;
@@ -39,6 +38,11 @@ const DroplistScreen = ({route, navigation}) => {
         setMessage(() => message);        
     }
 
+    const handleComplete = async () => {
+        const msg = await DroplistApi.completeDroplist(token, id);
+        navigation.navigate('DroplistIndex', {message: msg});
+    }
+
     useEffect( () => {
         
         async function getDetails(){
@@ -65,7 +69,7 @@ const DroplistScreen = ({route, navigation}) => {
                             handleAddButton={handleAddButton}
                         />
                     : 
-                        <Button transparent>
+                        <Button transparent onPress={handleComplete}>
                             <Icon name='checkmark' style={{color: '#61b15a'}}/>
                         </Button>
                 }

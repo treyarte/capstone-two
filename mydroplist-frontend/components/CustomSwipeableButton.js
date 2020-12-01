@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, NativeModules} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, NativeModules, Alert} from 'react-native';
 import {Button} from 'native-base';
 
-const CustomSwipeableButton = ({data, rowMap, label, color, fn}) => {
+const CustomSwipeableButton = ({data, rowMap, label, color, fn, declinedOption}) => {
     const styles = StyleSheet.create({
         backText: {
             color: '#FFF',
@@ -18,12 +18,20 @@ const CustomSwipeableButton = ({data, rowMap, label, color, fn}) => {
             marginVertical: 6,
             marginHorizontal:3
         }
-    })
+    });
+
+    const handleSwipe = () =>{
+        if(data.item.status === 'accepted' && !declinedOption || data.item.status === 'completed'){
+            Alert.alert('Warning', `Droplist has already been ${data.item.status}`);
+        } else {
+            fn(data.item.id)
+        }
+    }
     
     return (
         <TouchableOpacity
             style={styles.rowBack}
-                onPress={() => fn(data.item.id)}
+                onPress={handleSwipe}
             >  
             <Text style={styles.backText}>{label}</Text>
         </TouchableOpacity>

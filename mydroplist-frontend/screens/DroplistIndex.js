@@ -97,7 +97,7 @@ const DroplistIndex = ({navigation}) => {
                     </View>
 
                     <View style={{flex: 1, alignItems: 'flex-end'}}>  
-                        <CustomSwipeableButton data={data} rowMap={rowMap} label={'Delete'} color={'#ea5455'} fn={handleDelete} />
+                        <CustomSwipeableButton data={data} rowMap={rowMap} label={'Delete'} color={'#ea5455'} fn={handleDelete}  />
                     </View>
             </>
 
@@ -107,7 +107,7 @@ const DroplistIndex = ({navigation}) => {
                     <CustomSwipeableButton data={data} rowMap={rowMap} label={'Accept'} color={'#61b15a'} fn={acceptDroplist} />
                 </View> 
                 <View style={{flex: 1, alignItems: 'flex-end'}}>
-                    <CustomSwipeableButton data={data} rowMap={rowMap} label={'Decline'} color={'#ea5455'} fn={rejectDroplist} />
+                    <CustomSwipeableButton data={data} rowMap={rowMap} label={'Decline'} color={'#ea5455'} fn={rejectDroplist} declinedOption={true}/>
                 </View>
             </>
         }

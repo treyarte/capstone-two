@@ -1,5 +1,6 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import { TouchableWithoutFeedbackBase } from 'react-native';
 
 const BASE_URL = 'http://10.0.2.2:3001'
 class DroplistApi {
@@ -139,9 +140,18 @@ class DroplistApi {
 
     static async rejectDroplist(token, id){
         try{
-            let res = await axios.patch(`${BASE_URL}/droplists/${id}/reject`, {params: {token}});
+            let res = await axios.patch(`${BASE_URL}/droplists/${id}/decline`, {token});
             return res.data;
         } catch (error){
+            this.errorMessages(error);
+        }
+    }
+
+    static async completeDroplist(token, id){
+        try {
+            let res = await axios.patch(`${BASE_URL}/droplists/${id}/complete`, {token});
+            return res.data;
+        } catch (error) {
             this.errorMessages(error);
         }
     }
