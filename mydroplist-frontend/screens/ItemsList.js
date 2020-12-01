@@ -3,8 +3,9 @@ import {View, Text, SafeAreaView,SectionList, StyleSheet} from 'react-native'
 import {H3, Button, Row, Col} from 'native-base';
 import {TokenContext} from '../components/tokenContext';
 import jwt_Decode from 'jwt-decode';
+import DroplistApi from '../helpers/DroplistApi';
 
-const ItemsList = ({itemsList, deleteItem, editItem}) => {
+const ItemsList = ({itemsList, deleteItem, editItem, droplist}) => {
 
     const [items, setItems] = useState(formatItems(itemsList));
     
@@ -46,7 +47,7 @@ const ItemsList = ({itemsList, deleteItem, editItem}) => {
         const index = items.findIndex( i => i.title === item.steel_name);
         
         const filteredItems = items
-        console.log(filteredItems);
+
         filteredItems[index].data = items[index].data.filter(i => i.id !== id) 
         if(filteredItems[index].data.length === 0){
             filteredItems.splice(index, 1);
@@ -69,6 +70,8 @@ const ItemsList = ({itemsList, deleteItem, editItem}) => {
                 </Row>
                 {
                     jwt_Decode(token).role_id === 1 &&
+                    droplist.droplist.status !== 'completed' &&
+                    droplist.droplist.status !== 'accepted' &&
                         <Row style={{margin: 10}}>
                             <Col>
                                 <Button transparent onPress={() => handleEditItem(item.id)}>

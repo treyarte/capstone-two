@@ -95,7 +95,7 @@ const DroplistScreen = ({route, navigation}) => {
             </Content>
                      :
                         
-                        <ItemList editItem={editItem} deleteItem={deleteItem} itemsList={droplist.droplist.items}/>
+                        <ItemList droplist={droplist} editItem={editItem} deleteItem={deleteItem} itemsList={droplist.droplist.items}/>
                     
                 }
         </Container>
