@@ -37,7 +37,7 @@ const SignedInStack = () => {
   
     const Drawer = createDrawerNavigator();
     return (
-        <Drawer.Navigator initialRouteName='Droplists' drawerContent={props => <DrawerContent {...props} />}>
+        <Drawer.Navigator initialRouteName='Droplists' drawerContent={props => <DrawerContent {...props}  />}>
                 <Drawer.Screen name='Home' component={homeStack}/>
                 <Drawer.Screen name='AddDroplist' component={AddDroplistForm} options={{title: 'Add Droplist', headerShown: true}}/>
         </Drawer.Navigator>
