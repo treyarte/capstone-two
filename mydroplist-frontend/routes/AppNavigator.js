@@ -6,7 +6,7 @@ import {TokenContext} from '../components/tokenContext'
 
 const AppNavigator = () => {
 
-    const token = useContext(TokenContext);
+    const [token] = useContext(TokenContext);
 
     return (
         <NavigationContainer>

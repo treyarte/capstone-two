@@ -11,7 +11,7 @@ import jwt_decode from 'jwt-decode';
 
 const UserSettings = ({navigation}) => {
 
-    const token = useContext(TokenContext);
+    const [token, setToken] = useContext(TokenContext);
 
     const user_id = jwt_decode(token).id;
 
@@ -25,9 +25,9 @@ const UserSettings = ({navigation}) => {
     const handleUpdate = async () => {
         try {
             let updatedUser = await DroplistApi.updateUser(token, user_id, formData);
-
+            let updatedToken = await DroplistApi.login(formData.email, formData.password);
             resetForm();
-
+            setToken(updatedToken)
             navigation.navigate('Home');
 
         } catch (error) {

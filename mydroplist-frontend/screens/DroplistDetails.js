@@ -13,7 +13,7 @@ const DroplistScreen = ({route, navigation}) => {
     const [droplist, setDroplist] = useState(null);
     const [message, setMessage] = useState('')
 
-    const token = useContext(TokenContext);
+    const [token] = useContext(TokenContext);
 
     const handleEditButton = () => {
         navigation.navigate('EditDroplist', {id});

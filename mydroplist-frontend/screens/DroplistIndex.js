@@ -17,7 +17,7 @@ const DroplistIndex = ({navigation}) => {
         ['produce', 'sundries', 'hardlines',  'seasonal',  'freezer',  'dairy', 'receiving',  'deli']
     );
     
-    const token = useContext(TokenContext);
+    const [token] = useContext(TokenContext);
 
 
     const INITIAL_STATE = [];

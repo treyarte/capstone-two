@@ -16,7 +16,7 @@ const EditItem = ({ navigation, route}) => {
 
     const [ errors, handleErrors] =  useErrors()
 
-    const token = useContext(TokenContext);
+    const [token] = useContext(TokenContext);
 
     const handleChange = (value, name) => {
         

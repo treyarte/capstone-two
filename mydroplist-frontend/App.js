@@ -85,8 +85,8 @@ export default function App() {
     <>
       { !loaded ? (<AppLoading/>) : (
       <AuthContext.Provider value={authContext}>
-        <TokenContext.Provider value={token}>
-          <AppNavigator token={token}/>
+        <TokenContext.Provider value={[token, setToken]}>
+          <AppNavigator />
         </TokenContext.Provider>
         </AuthContext.Provider>
         )

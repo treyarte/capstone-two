@@ -8,9 +8,9 @@ import jwt_decode from 'jwt-decode';
 
 const DrawerContent = (props) => {
     const {signOut} = useContext(AuthContext);
-    const token = useContext(TokenContext);
+    const [token] = useContext(TokenContext);
     const email = jwt_decode(token).email;
-    const role = jwt_decode(token).role_id ? 'Stocker' : 'Forklift Driver';
+    const role = jwt_decode(token).role_id === 1 ? 'Stocker' : 'Forklift Driver';
 
     const handleSignOut = () => {
         signOut();

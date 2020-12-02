@@ -9,7 +9,7 @@ const ItemsList = ({itemsList, deleteItem, editItem, droplist}) => {
 
     const [items, setItems] = useState(formatItems(itemsList));
     
-    const token = useContext(TokenContext);
+    const [token] = useContext(TokenContext);
 
     const styles = StyleSheet.create({
         title: {

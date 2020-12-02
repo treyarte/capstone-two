@@ -31,7 +31,7 @@ const EditDroplistFrom = ({ navigation, route}) => {
 
     const [ errors, handleErrors] =  useErrors()
 
-    const token = useContext(TokenContext);
+    const [token] = useContext(TokenContext);
 
     const handleSubmit = async () => {
         try {

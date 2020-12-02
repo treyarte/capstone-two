@@ -8,7 +8,7 @@ import ForkliftDriverList from '../components/ForkliftDriverList';
 const SendScreen = ({route, navigation}) => {
     const {id} = route.params;
 
-    const token = useContext(TokenContext);
+    const [token] = useContext(TokenContext);
 
     const [forkliftDrivers, setForkliftDrivers] = useState([])
 
