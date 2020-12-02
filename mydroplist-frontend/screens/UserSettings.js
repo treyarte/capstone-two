@@ -6,6 +6,7 @@ import useErrors from '../hooks/useErrors';
 import {TokenContext} from '../components/tokenContext'
 import DroplistApi from '../helpers/DroplistApi';
 import UserForm from '../components/userForm';
+import departments from '../helpers/GetDepartments';
 import jwt_decode from 'jwt-decode';
 
 const UserSettings = ({navigation}) => {
@@ -17,17 +18,17 @@ const UserSettings = ({navigation}) => {
     const INITIAL_STATE = {email: '', firstName: '', lastName: '', 
     department: 1, role: 1, password: '', passwordConfirmation: ''}
 
-    const [formData, handleChange, resetForm] = useFields(INITIAL_STATE);
+    const [formData, handleChange, resetForm, setFormData] = useFields(INITIAL_STATE);
     
     const [errors, handleErrors] = useErrors([])
     
-    const handleSignUp = async () => {
+    const handleUpdate = async () => {
         try {
-            const {email, firstName, lastName, department, role, password} = formData;
-            
-            let token = await DroplistApi.signUp(email, password, firstName, lastName, department, role);
+            let updatedUser = await DroplistApi.updateUser(token, user_id, formData);
 
-            signUp(token);
+            resetForm();
+
+            navigation.navigate('Home');
 
         } catch (error) {
             const errorsArr = error[0].errors ? error[0].errors : error;
@@ -64,20 +65,25 @@ const UserSettings = ({navigation}) => {
 
     useEffect(() => {
         (async () => {
-            const {user} = DroplistApi.getUser(token, user_id)
-            console.log(user);
+            const {user} = await DroplistApi.getUser(token, user_id)
+            setFormData( () => (
+                {
+                    email: user.email, firstName: user.first_name, lastName: user.last_name, 
+                    department: departments[user.department], role: user.role==='stocker' ? 1 : 2, password: '', passwordConfirmation: ''
+            }));
         })();
     }, [token, user_id])
 
     return (
          <Container>
             <Content>
+
                 <UserForm formData={formData} handleChange={handleChange} />
                 <View style={styles.buttonContainer}>
                     <Button info style={styles.buttons} onPress={() => navigation.goBack()} >
                     <Text>Cancel</Text>  
                     </Button>
-                    <Button primary style={styles.buttons} onPress={handleSignUp}>
+                    <Button primary style={styles.buttons} onPress={handleUpdate}>
                         <Text>Update</Text>
                     </Button>
                 </View>

@@ -169,6 +169,25 @@ class DroplistApi {
         }
     }
 
+    static async updateUser(token, id, data){
+        try {
+            
+            let res = await axios.put(`${BASE_URL}/users/${id}`,
+            {
+                token, 
+                first_name: data.firstName,
+                last_name: data.lastName,
+                department_id: data.department,
+                role_id: data.role,
+                password: data.password,
+                email:   data.email
+            })
+            return res.data;
+        } catch (error) {
+            this.errorMessages(error);
+        }
+    }
+
     static errorMessages(error){
         console.error('APIS ERROR:', error);
         let message = error.response.data.message;

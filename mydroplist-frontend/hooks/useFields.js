@@ -15,7 +15,7 @@ const useFields = (initialState) => {
         setFormData(initialState);
     };
 
-    return [formData, handleChange, resetFormData]
+    return [formData, handleChange, resetFormData, setFormData]
 }
 
 export default useFields
