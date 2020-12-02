@@ -44,6 +44,11 @@ const SignUp = () => {
             color: '#323232',
             margin: -5
             
+        },
+        submitBtn: {
+            marginRight: 20,
+            marginTop: 20, 
+            alignSelf: 'flex-end'
         }
     });
 
@@ -52,15 +57,15 @@ const SignUp = () => {
             <Content>
                 <Form style={styles.form}>
                     <Item floatingLabel>
-                        <Label>Email</Label>
+                        <Label>Email *</Label>
                         <Input value={formData.email} onChangeText={(text) => handleChange(text, 'email')} />
                     </Item>
                     <Item floatingLabel>
-                        <Label>First name</Label>
+                        <Label>First name *</Label>
                         <Input value={formData.firstName} onChangeText={(text) => handleChange(text, 'firstName')} />
                     </Item>
                     <Item floatingLabel>
-                        <Label>Last name</Label>
+                        <Label>Last name *</Label>
                         <Input value={formData.lastName} onChangeText={(text) => handleChange(text, 'lastName')} />
                     </Item>
                     <Item style={styles.dropDown}>
@@ -85,7 +90,7 @@ const SignUp = () => {
                         </Picker>
                     </Item>
                     <Item floatingLabel>
-                        <Label>Password</Label>
+                        <Label>Password *</Label>
                         <Input 
                             secureTextEntry={true} 
                             value={formData.password}
@@ -101,10 +106,10 @@ const SignUp = () => {
                             onChangeText={(text) => handleChange(text, 'passwordConfirmation')}
                         />
                     </Item> */}
-                    <Button dark style={{marginTop: 20, alignSelf: 'flex-end'}} onPress={handleSignUp}>
+                </Form>
+                    <Button dark style={styles.submitBtn} onPress={handleSignUp}>
                         <Text>Sign Up</Text>
                     </Button>
-                </Form>
             </Content>
         </Container>
     )

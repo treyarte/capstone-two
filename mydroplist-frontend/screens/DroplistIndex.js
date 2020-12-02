@@ -1,14 +1,14 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, FlatList, Alert, TouchableOpacity} from 'react-native';
-import {Spinner, Container, Text,} from 'native-base';
+import {View, Alert} from 'react-native';
+import {Text,} from 'native-base';
 import DropList from './DropList';
 import DroplistApi from '../helpers/DroplistApi';
-import CustomPicker from './CustomPicker';
 import {TokenContext} from '../components/tokenContext'
 import {SwipeListView} from 'react-native-swipe-list-view'
 import CustomSwipeableButton from '../components/CustomSwipeableButton';
 import { useIsFocused } from '@react-navigation/native'
 import jwt_decode from 'jwt-decode';
+import NoContent from '../components/NoContent';
 
 
 const DroplistIndex = ({navigation}) => {
@@ -120,8 +120,8 @@ const DroplistIndex = ({navigation}) => {
     return(
         <View>
             {
-                !droplists ? (
-                   <Text>No droplists found</Text>
+                droplists.length === 0 ? (
+                   <NoContent message={'No Droplist found'}/>
                 ) : 
             (
                 <SwipeListView 
