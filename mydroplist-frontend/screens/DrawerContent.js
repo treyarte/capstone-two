@@ -45,7 +45,7 @@ const DrawerContent = (props) => {
                     <Button disabled light transparent>
                         <Text style={styles.headerText}>Role: {role}</Text>
                     </Button>
-                    <Button info transparent>
+                    <Button info transparent onPress={() => navigate('UserSettings')}>
                         <Text >settings</Text>
                     </Button>
                 </CardItem>

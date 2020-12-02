@@ -10,6 +10,7 @@ import DrawerContent from '../screens/DrawerContent';
 import AddItem from '../screens/AddItem';
 import EditItem from '../screens/EditItem';
 import SendScreen from '../screens/SendScreen';
+import UserSettings from '../screens/UserSettings';
 
 function homeStack ({navigation}) {
     const {Navigator, Screen} = createStackNavigator();
@@ -40,6 +41,7 @@ const SignedInStack = () => {
         <Drawer.Navigator initialRouteName='Droplists' drawerContent={props => <DrawerContent {...props}  />}>
                 <Drawer.Screen name='Home' component={homeStack}/>
                 <Drawer.Screen name='AddDroplist' component={AddDroplistForm} options={{title: 'Add Droplist', headerShown: true}}/>
+                <Drawer.Screen name='UserSettings' component={UserSettings} options={{title: 'Settings', headerShown: true}}/>
         </Drawer.Navigator>
     )
 }

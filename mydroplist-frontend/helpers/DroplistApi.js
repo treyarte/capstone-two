@@ -156,6 +156,19 @@ class DroplistApi {
         }
     }
 
+    /**
+     * 
+     * user methods 
+     */
+    static async getUser(token, id){
+        try {
+            let res = await axios.get(`${BASE_URL}/users/${id}`, {params: {token}});
+            return res.data;
+        } catch (error) {
+            this.errorMessages(error);
+        }
+    }
+
     static errorMessages(error){
         console.error('APIS ERROR:', error);
         let message = error.response.data.message;
