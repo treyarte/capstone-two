@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, SectionList, StyleSheet} from 'react-native';
-import {H3, Button} from 'native-base';
+import {H3, Button, Row, Col} from 'native-base';
 
 const ForkliftDriverList = ({forkliftDrivers, sendDroplist}) => {
      
@@ -9,18 +9,34 @@ const ForkliftDriverList = ({forkliftDrivers, sendDroplist}) => {
     const styles = StyleSheet.create({
         title: {
             flex: 1,
-            backgroundColor: '#393e46',
+            backgroundColor: '#1a1c20',
             marginVertical: 10,
-            alignItems: 'center',
-            padding: 5
+            alignItems: 'flex-start',
+            padding: 5,
+            
         }, 
         titleText: {
             color: '#eeeeee',
+            textTransform: 'capitalize',
+            margin: 5
+        },
+        driveText: {
+            textTransform: 'capitalize',
+            fontWeight: 'bold',
+            margin: 10
+            
         },
         noItems: {
             flex: 1,
             marginTop: 100,
             alignSelf: 'center'
+        },
+        sendBtn: {
+            flex: 1,
+            padding: 20,
+            color: '#eee',
+            alignSelf: 'flex-end',
+            marginRight: 10
         }
     });
 
@@ -29,9 +45,17 @@ const ForkliftDriverList = ({forkliftDrivers, sendDroplist}) => {
     }
 
     const renderDriver = ({item}) => (
-        <View>
-            <H3>{`${item.first_name} ${item.last_name}`}</H3>
-            <Button onPress={() => handleSend(item.id)}><Text>Send</Text></Button>
+        <View style={{justifyContent: 'center'}}>
+            <Row>
+                <Col>
+                    <H3 style={styles.driveText}>{`${item.first_name} ${item.last_name}`}</H3>
+                </Col>
+                <Col>
+                    <Button style={styles.sendBtn} onPress={() => handleSend(item.id)}>
+                        <Text style={{color: '#eee', fontWeight: 'bold', fontSize: 16}}>Send</Text>
+                    </Button>
+                </Col>
+            </Row>
         </View>
     )
     
