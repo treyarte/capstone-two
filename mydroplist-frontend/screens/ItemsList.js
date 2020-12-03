@@ -1,9 +1,9 @@
 import React, {useState, useContext} from 'react';
 import {View, Text, SafeAreaView,SectionList, StyleSheet} from 'react-native'
-import {H3, Button, Row, Col} from 'native-base';
+import {H3, Button, Row, Col, Icon} from 'native-base';
 import {TokenContext} from '../components/tokenContext';
 import jwt_Decode from 'jwt-decode';
-import DroplistApi from '../helpers/DroplistApi';
+
 
 const ItemsList = ({itemsList, deleteItem, editItem, droplist}) => {
 
@@ -14,22 +14,27 @@ const ItemsList = ({itemsList, deleteItem, editItem, droplist}) => {
     const styles = StyleSheet.create({
         title: {
             flex: 1,
-            backgroundColor: '#393e46',
+            backgroundColor: '#000000',
             marginVertical: 10,
-            alignItems: 'center',
-            padding: 5
+            alignItems: 'flex-start',
+            padding: 5,
+            
         }, 
         titleText: {
             color: '#eeeeee',
+            textTransform: 'capitalize',
+            margin: 5
         },
         item: {
             flex: 1,
+           
   
         },
         fontText: {
             margin: 10,
             fontSize: 20,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            textTransform: 'capitalize'
         },
         noItems: {
             flex: 1,
@@ -67,7 +72,6 @@ const ItemsList = ({itemsList, deleteItem, editItem, droplist}) => {
                         <Text style={styles.fontText}>{item.description}</Text>
                     </Text>
                 </Col>
-                </Row>
                 {
                     jwt_Decode(token).role_id === 1 &&
                     droplist.droplist.status !== 'completed' &&
@@ -75,17 +79,18 @@ const ItemsList = ({itemsList, deleteItem, editItem, droplist}) => {
                         <Row style={{margin: 10}}>
                             <Col>
                                 <Button transparent onPress={() => handleEditItem(item.id)}>
-                                    <H3 style={{color: '#222831'}}>Edit</H3>
+                                    <Icon type='MaterialIcons' name='edit' style={{color: '#393e46'}}/>
                                 </Button>
                             </Col>
                             <Col>
                                 <Button transparent onPress={() => handleDelete(item.id, item)}>
-                                    <H3 style={{color: '#ea5455'}}>Delete</H3>
+                                    <Icon type='MaterialIcons' name='delete' style={{color: '#ea5455'}}/>
                                 </Button>
                             </Col>
                         </Row>
 
                 }
+                </Row>
         </View>
     )
 
@@ -106,12 +111,16 @@ const ItemsList = ({itemsList, deleteItem, editItem, droplist}) => {
                 :
 
                 <SafeAreaView>
+                    
+
                     <SectionList
+        
                         sections={items}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={renderItem}
                         renderSectionHeader={renderHeader}
                     />
+                    
                 </SafeAreaView>
             }
         </>
