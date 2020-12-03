@@ -14,7 +14,7 @@ const ItemsList = ({itemsList, deleteItem, editItem, droplist}) => {
     const styles = StyleSheet.create({
         title: {
             flex: 1,
-            backgroundColor: '#000000',
+            backgroundColor: '#1a1c20',
             marginVertical: 10,
             alignItems: 'flex-start',
             padding: 5,

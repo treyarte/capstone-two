@@ -45,22 +45,22 @@ const DrawerContent = (props) => {
                     <Button disabled light transparent>
                         <Text style={styles.headerText}>Role: {role}</Text>
                     </Button>
-                    <Button info transparent onPress={() => navigate('UserSettings')}>
+                    <Button primary transparent onPress={() => navigate('UserSettings')}>
                         <Text >settings</Text>
                     </Button>
                 </CardItem>
                 <CardItem>
                     <Body>
-                        <Button info transparent onPress={() => navigate('DroplistIndex')}>
+                        <Button primary transparent onPress={() => navigate('DroplistIndex')}>
                             <Text>Home</Text>
                         </Button>
-                        <Button info transparent onPress={() => navigate('AddDroplist')}>
+                        <Button primary transparent onPress={() => navigate('AddDroplist')}>
                             <Text>Create Droplist</Text>
                         </Button>
                     </Body>
                 </CardItem>
                 <CardItem bordered footer>
-                   <Button info transparent onPress={handleSignOut}>
+                   <Button primary transparent onPress={handleSignOut}>
                        <Text>Sign Out</Text>
                    </Button>
                 </CardItem>

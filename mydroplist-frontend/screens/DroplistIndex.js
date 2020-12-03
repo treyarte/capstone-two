@@ -97,7 +97,7 @@ const DroplistIndex = ({navigation}) => {
                     </View>
 
                     <View style={{flex: 1, alignItems: 'flex-end'}}>  
-                        <CustomSwipeableButton data={data} rowMap={rowMap} label={'Delete'} color={'#ea5455'} fn={handleDelete}  />
+                        <CustomSwipeableButton data={data} rowMap={rowMap} label={'Delete'} color={'#ea5455'} fn={handleDelete} deleteOption={true} />
                     </View>
             </>
 
