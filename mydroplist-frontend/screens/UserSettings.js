@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
-import {View, StyleSheet, Alert} from 'react-native';
-import {Container,Content, Form, Item, Input, Label, Button, Text, Picker } from 'native-base'
+import {View, StyleSheet} from 'react-native';
+import {Container,Content, Button, Text, Toast } from 'native-base'
 import useFields from '../hooks/useFields';
 import useErrors from '../hooks/useErrors';
 import {TokenContext} from '../components/tokenContext'
@@ -25,15 +25,28 @@ const UserSettings = ({navigation}) => {
     const handleUpdate = async () => {
         try {
             let updatedUser = await DroplistApi.updateUser(token, user_id, formData);
+            //find a better alternative to refresh the token
             let updatedToken = await DroplistApi.login(formData.email, formData.password);
             resetForm();
             setToken(updatedToken)
             navigation.navigate('Home');
+            Toast.show({
+                text: 'Profile successfully updated',
+                buttonText: 'Okay',
+                type: 'success',
+                duration: 5000
+            });
 
         } catch (error) {
             const errorsArr = error[0].errors ? error[0].errors : error;
             handleErrors(errorsArr);
-            Alert.alert("Errors: ", errorsArr.join("\n"));
+            Toast.show({
+                text: errorsArr.join('\n'),
+                buttonText: 'Okay',
+                type: 'danger',
+                duration: 5000
+            });
+            // Alert.alert("Errors: ", errorsArr.join("\n"));
         }
     }
 

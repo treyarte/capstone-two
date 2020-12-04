@@ -1,6 +1,5 @@
-import React, {useState, useContext} from 'react';
-import {Alert} from 'react-native';
-import { Form, Item, Input, Label, Picker, Button, Text, Container, Content, Row, Col } from 'native-base';
+import React, {useContext} from 'react';
+import { Form, Item, Input, Label, Picker, Button, Text, Container, Content, Row, Col, Toast } from 'native-base';
 import {StyleSheet} from 'react-native';
 import useFields from '../hooks/useFields';
 import useErrors from '../hooks/useErrors';
@@ -26,11 +25,24 @@ const AddDroplistForm = ({ navigation}) => {
             
             navigation.navigate("Home");
 
+            Toast.show({
+                text: 'Droplist Successfully created',
+                buttonText: 'Okay',
+                type: 'success',
+                duration: 5000
+            });
+
             
         } catch (error) {
             const errorsArr = error[0].errors ? error[0].errors : error;
             handleErrors(errorsArr);
-            Alert.alert("Errors: ", errorsArr.join("\n"));
+            Toast.show({
+                text: errorsArr.join('\n'),
+                buttonText: 'Okay',
+                type: 'danger',
+                duration: 5000
+            });
+            // Alert.alert("Errors: ", errorsArr.join("\n"));
         }
         
 

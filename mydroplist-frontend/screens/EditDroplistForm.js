@@ -1,8 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Alert} from 'react-native';
-import { Form, Item, Input, Label, Picker, Button, Text, Container, Content, Row, Col, Spinner } from 'native-base';
+import { Form, Item, Input, Label, Picker, Button, Text, Container, Content, Row, Col, Spinner, Toast } from 'native-base';
 import {StyleSheet} from 'react-native';
-import useFields from '../hooks/useFields';
 import useErrors from '../hooks/useErrors';
 import DroplistApi from '../helpers/DroplistApi';
 import {TokenContext} from '../components/tokenContext';
@@ -42,11 +40,25 @@ const EditDroplistFrom = ({ navigation, route}) => {
             resetFormData();
 
             navigation.navigate("DroplistIndex");
+
+            Toast.show({
+                text: 'Droplist successfully updated',
+                buttonText: 'Okay',
+                type: 'success',
+                duration: 5000
+            });
  
         } catch (error) {
             const errorsArr = error[0].errors ? error[0].errors : error;
             handleErrors(errorsArr);
-            Alert.alert("Errors: ", errorsArr.join("\n"));
+            // Alert.alert("Errors: ", errorsArr.join("\n"));
+
+            Toast.show({
+                text: errorsArr.join('\n'),
+                buttonText: 'Okay',
+                type: 'danger',
+                duration: 5000
+            });
         }
     }
 

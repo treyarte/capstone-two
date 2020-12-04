@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {} from 'react-native';
-import {Container, Content, View, Text, Spinner} from 'native-base';
+import {Container, View, Spinner, Toast} from 'native-base';
 import {TokenContext} from '../components/tokenContext';
 import DroplistApi from '../helpers/DroplistApi';
 import ForkliftDriverList from '../components/ForkliftDriverList';
@@ -23,8 +22,14 @@ const SendScreen = ({route, navigation}) => {
 
     const sendDroplist = async (forklift_driver_id) => {
         
-        const droplist = await DroplistApi.sendDroplist(token, id, forklift_driver_id);
+        const {droplist} = await DroplistApi.sendDroplist(token, id, forklift_driver_id);
         navigation.navigate('DroplistIndex');
+        Toast.show({
+            text: `Droplists successfully sent to ${droplist.forklift_driver.first_name} ${droplist.forklift_driver.last_name}`,
+            buttonText: 'Okay',
+            type: 'success',
+            duration: 5000
+        });
     }
 
     return (

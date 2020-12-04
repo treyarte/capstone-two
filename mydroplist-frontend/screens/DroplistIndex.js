@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {View, Alert} from 'react-native';
-import {Text,} from 'native-base';
+import {Toast} from 'native-base';
 import DropList from './DropList';
 import DroplistApi from '../helpers/DroplistApi';
 import {TokenContext} from '../components/tokenContext'
@@ -35,6 +35,12 @@ const DroplistIndex = ({navigation}) => {
     const handleDelete = async (droplist_id) => {
         const isDeleted = await DroplistApi.deleteDroplist(token, droplist_id);   
         setdroplists(droplists.filter(d => d.id !== droplist_id));
+        Toast.show({
+            text: 'Droplist Successfully deleted',
+            buttonText: 'Okay',
+            type: 'success',
+            duration: 5000
+        });
     }
     
     const sendDroplist = (droplist_id) => {
@@ -68,6 +74,13 @@ const DroplistIndex = ({navigation}) => {
         updatedList[index].status = 'accepted';
 
         setdroplists(() => (updatedList));
+        
+        Toast.show({
+            text: 'Droplist successfully accepted',
+            buttonText: 'Okay',
+            type: 'success',
+            duration: 5000
+        });
     }
 
     const rejectDroplist = async (id) => {
@@ -78,6 +91,14 @@ const DroplistIndex = ({navigation}) => {
         updatedList[index].status = 'declined';
 
         setdroplists(() => (updatedList));
+
+        Toast.show({
+            text: 'Droplist rejected',
+            buttonText: 'Okay',
+            type: 'danger',
+            duration: 5000
+        });
+        
     }
 
     const renderHiddenItem = (data, rowMap) => (

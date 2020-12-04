@@ -10,7 +10,7 @@ const DrawerContent = (props) => {
     const {signOut} = useContext(AuthContext);
     const [token] = useContext(TokenContext);
     const email = jwt_decode(token).email;
-    const role = jwt_decode(token).role_id === 1 ? 'Stocker' : 'Forklift Driver';
+    const role = jwt_decode(token).role_id === 1 ? 'stocker' : 'forklift driver';
 
     const handleSignOut = () => {
         signOut();
@@ -54,9 +54,13 @@ const DrawerContent = (props) => {
                         <Button primary transparent onPress={() => navigate('DroplistIndex')}>
                             <Text>Home</Text>
                         </Button>
+                        {
+                            role === 'stocker' &&
                         <Button primary transparent onPress={() => navigate('AddDroplist')}>
                             <Text>Create Droplist</Text>
                         </Button>
+                        
+                        }
                     </Body>
                 </CardItem>
                 <CardItem bordered footer>

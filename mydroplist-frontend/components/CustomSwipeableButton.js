@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, NativeModules, Alert} from 'react-native';
-import {Button} from 'native-base';
+import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {Toast} from 'native-base';
 
 const CustomSwipeableButton = ({data, rowMap, label, color, fn, declinedOption, deleteOption}) => {
     const styles = StyleSheet.create({
@@ -23,7 +23,13 @@ const CustomSwipeableButton = ({data, rowMap, label, color, fn, declinedOption, 
     const handleSwipe = () =>{
         if(deleteOption) fn(data.item.id);
         else if(data.item.status === 'accepted' && !declinedOption || data.item.status === 'completed'){
-            Alert.alert('Warning', `Droplist has already been ${data.item.status}`);
+            // Alert.alert('Warning', `Droplist has already been ${data.item.status}`);
+            Toast.show({
+                text: `Droplist has already been ${data.item.status}`,
+                buttonText: 'Okay',
+                type: 'warning',
+                duration: 5000
+            });
         } else {
             fn(data.item.id)
         }

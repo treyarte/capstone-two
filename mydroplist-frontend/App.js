@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import {Root} from 'native-base';
 import {useFonts} from 'expo-font';
 import {Ionicons} from '@expo/vector-icons'
 import AppNavigator from './routes/AppNavigator';
@@ -86,7 +87,9 @@ export default function App() {
       { !loaded ? (<AppLoading/>) : (
       <AuthContext.Provider value={authContext}>
         <TokenContext.Provider value={[token, setToken]}>
-          <AppNavigator />
+          <Root>
+            <AppNavigator />
+          </Root>
         </TokenContext.Provider>
         </AuthContext.Provider>
         )

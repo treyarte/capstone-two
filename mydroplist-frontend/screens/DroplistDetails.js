@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext, useLayoutEffect} from 'react';
 import {StyleSheet} from 'react-native'
-import {Text, Container, Content, Spinner, Button, Icon, View} from 'native-base';
+import {Container, Content, Spinner, Button, Icon, Toast} from 'native-base';
 import DroplistApi from '../helpers/DroplistApi';
 import {TokenContext} from '../components/tokenContext'
 import ItemList from '../screens/ItemsList';
@@ -41,6 +41,12 @@ const DroplistScreen = ({route, navigation}) => {
     const handleComplete = async () => {
         const msg = await DroplistApi.completeDroplist(token, id);
         navigation.navigate('DroplistIndex', {message: msg});
+        Toast.show({
+            text: msg.message,
+            buttonText: 'Okay',
+            type: 'success',
+            duration: 5000
+        });
     }
 
     useEffect( () => {

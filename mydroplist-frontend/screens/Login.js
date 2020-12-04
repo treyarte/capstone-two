@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
-import {StyleSheet, Alert} from 'react-native';
-import {Container,Content, Form, Item, Input, Label, Button, Text } from 'native-base'
+import {StyleSheet} from 'react-native';
+import {Container,Content, Form, Item, Input, Label, Button, Text, Toast } from 'native-base'
 import useFields from '../hooks/useFields';
 import useErrors from '../hooks/useErrors';
 import {AuthContext} from '../components/context';
@@ -33,7 +33,13 @@ const Login = () => {
         } catch (error) {
             const errorsArr = error[0].errors ? error[0].errors : error;
             handleErrors(errorsArr);
-            Alert.alert("Errors: ", errorsArr.join("\n"));
+            Toast.show({
+                text: errorsArr.join('\n'),
+                buttonText: 'Okay',
+                type: 'danger',
+                duration: 5000
+            });
+            // Alert.alert("Errors: ", errorsArr.join("\n"));
         }
     }
 
