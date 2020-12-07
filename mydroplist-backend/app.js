@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const ExpressError = require('./helpers/ExpressError');
+const ExpressError = require('./helpers/expressError');
 const {authenticateJWT, droplistAccess} = require('./middleware/auth')
 
 const authRoutes = require('./routes/auth');
