@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {SECRET} = require('../config');
-const ExpressError = require('../helpers/ExpressError');
+const ExpressError = require('../helpers/expressError');
 const Droplist = require('../models/Droplist');
 const db = require('../db');
 
