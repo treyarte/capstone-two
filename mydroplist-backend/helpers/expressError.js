@@ -1,5 +1,6 @@
 /**
  * Express error extends normal errors and allows us to easily add a status to it.
+ * name change
  */
 
  class ExpressError extends Error {
