@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "mydroplist-frontend",
-    "slug": "mydroplist-frontend",
+    "name": "My Droplist",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/mydroplist-icon.png",
+    "description": "The app that manages and keeps track of your stockers' droplists",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -20,6 +20,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.treyvionjohnson.mydroplist",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

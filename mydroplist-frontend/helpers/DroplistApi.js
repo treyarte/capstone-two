@@ -2,7 +2,8 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { TouchableWithoutFeedbackBase } from 'react-native';
 
-const BASE_URL = 'http://10.0.2.2:3001'
+// const BASE_URL = 'http://10.0.2.2:3001'
+const BASE_URL = 'https://mydroplistmobile.herokuapp.com'
 class DroplistApi {
     static async login(email, password){
         try {
