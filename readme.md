@@ -1,6 +1,6 @@
 # <b>My Droplist Mobile</b>
 
-#####[Android Download](https://play.google.com/store/apps/details?id=com.treyvionjohnson.mydroplist)
+##### [Android Download](https://play.google.com/store/apps/details?id=com.treyvionjohnson.mydroplist)
 
 My Droplist is a mobile application for android built with Node.JS, Express.js, and React Native. This app is for my second capstone project at Springboards Software Engineering Career Track.
 
