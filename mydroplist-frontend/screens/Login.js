@@ -51,7 +51,7 @@ const Login = () => {
                 <Form style={styles.form}>
                     <Item floatingLabel>
                         <Label>Email</Label>
-                        <Input value={formData.email} onChangeText={(text) => handleChange(text, 'email')} />
+                        <Input autoCapitalize="none" value={formData.email} onChangeText={(text) => handleChange(text, 'email')} />
                     </Item>
                     <Item floatingLabel>
                         <Label>Password</Label>
