@@ -6,9 +6,9 @@
     "icon": "./assets/mydroplist-icon.png",
     "description": "The app that manages and keeps track of your stockers' droplists",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/mydroplist-splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,8 +22,8 @@
     "android": {
       "package": "com.treyvionjohnson.mydroplist",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/mydroplist-icon.png",
+        "backgroundColor": "#000"
       }
     },
     "web": {
