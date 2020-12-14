@@ -85,7 +85,7 @@ const EditItem = ({ navigation, route}) => {
         <Container>
             <Content>
                 <Form style={styles.form}>
-                    <Item floatingLabel>
+                    <Item stackedLabel>
                         <Label>Steel Name</Label>
                         <Input value={formData.steel_name} onChangeText={(text) => handleChange(text, 'steel_name')} />
                     </Item>
@@ -103,12 +103,12 @@ const EditItem = ({ navigation, route}) => {
                             <Picker.Item label="C" value='C'/>
                         </Picker>
                     </Item>
-                    <Item floatingLabel>
+                    <Item stackedLabel>
                         <Label>Column #</Label>
                         <Input value={formData.column_number} 
                         onChangeText={(text) => handleChange(text, 'column_number')} keyboardType="numeric"/>
                     </Item>
-                    <Item floatingLabel>
+                    <Item stackedLabel>
                         <Label>Description</Label>
                         <Input value={formData.description} onChangeText={(text) => handleChange(text, 'description')} />
                     </Item>

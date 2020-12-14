@@ -36,7 +36,8 @@ const ForkliftDriverList = ({forkliftDrivers, sendDroplist}) => {
             padding: 20,
             color: '#eee',
             alignSelf: 'flex-end',
-            marginRight: 10
+            marginRight: 10,
+            marginBottom: 10
         }
     });
 

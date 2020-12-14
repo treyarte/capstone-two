@@ -1,18 +1,25 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import { Form, Item, Input, Label, Picker } from 'native-base'
+import { Form, Item, Input, Label, Picker, Toast } from 'native-base'
 
 const userForm = ({formData, handleChange}) => {
     
 
     const styles = StyleSheet.create({
         form: {
-            marginHorizontal: 20
+            marginHorizontal: 20,
+            
         },
 
         dropDown: {
-            marginTop: 30,
+            margin: 25,
         },
+
+        textField: {
+            marginVertical: 10,
+            marginRight: 23
+        },
+
         dropDownText: {
             color: '#323232',
             margin: -5
@@ -22,15 +29,15 @@ const userForm = ({formData, handleChange}) => {
 
     return (
          <Form style={styles.form}>
-                    <Item floatingLabel>
+                    <Item stackedLabel style={styles.textField}>
                         <Label>Email *</Label>
                         <Input value={formData.email} onChangeText={(text) => handleChange(text, 'email')} />
                     </Item>
-                    <Item floatingLabel>
+                    <Item stackedLabel style={styles.textField}>
                         <Label>First name *</Label>
                         <Input value={formData.firstName} onChangeText={(text) => handleChange(text, 'firstName')} />
                     </Item>
-                    <Item floatingLabel>
+                    <Item stackedLabel style={styles.textField}>
                         <Label>Last name *</Label>
                         <Input value={formData.lastName} onChangeText={(text) => handleChange(text, 'lastName')} />
                     </Item>
@@ -55,7 +62,7 @@ const userForm = ({formData, handleChange}) => {
                             <Picker.Item label='Forklift driver' value={2}/>
                         </Picker>
                     </Item>
-                    <Item floatingLabel>
+                    <Item stackedLabel style={styles.textField}>
                         <Label>Password *</Label>
                         <Input 
                             secureTextEntry={true} 
@@ -64,14 +71,14 @@ const userForm = ({formData, handleChange}) => {
                         />
                     </Item>
 
-                    {/* <Item floatingLabel>
-                        <Label>Confirm Password</Label>
+                    <Item stackedLabel style={styles.textField}>
+                        <Label>Confirm Password *</Label>
                         <Input 
                             secureTextEntry={true} 
                             value={formData.passwordConfirmation}
                             onChangeText={(text) => handleChange(text, 'passwordConfirmation')}
                         />
-                    </Item> */}
+                    </Item>
                 </Form>
     )
 }

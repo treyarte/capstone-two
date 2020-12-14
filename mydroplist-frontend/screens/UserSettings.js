@@ -20,10 +20,32 @@ const UserSettings = ({navigation}) => {
 
     const [formData, handleChange, resetForm, setFormData] = useFields(INITIAL_STATE);
     
-    const [errors, handleErrors] = useErrors([])
+    const [errors, handleErrors] = useErrors([]);
+
+    const confirmPassword = () => {
+        try {
+            if(formData.password !== formData.passwordConfirmation){
+                throw new Error("Passwords must match");
+            }
+            return true;
+        } catch (error) {
+            Toast.show({
+                text: error.message,
+                buttonText: 'Okay',
+                type: 'danger',
+                duration: 5000
+            });
+
+            return false;
+        }
+    } 
+
     
     const handleUpdate = async () => {
         try {
+            
+            if(!confirmPassword()) return;
+
             let updatedUser = await DroplistApi.updateUser(token, user_id, formData);
             //find a better alternative to refresh the token
             let updatedToken = await DroplistApi.login(formData.email, formData.password);
@@ -66,7 +88,8 @@ const UserSettings = ({navigation}) => {
         buttonContainer: {
             flex: 1,
             flexDirection: 'row',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            marginBottom: 10
         },
         buttons: {
             marginLeft: 35,
