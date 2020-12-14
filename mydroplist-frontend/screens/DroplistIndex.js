@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Alert} from 'react-native';
+import {View, Alert, RefreshControl} from 'react-native';
 import {Toast} from 'native-base';
 import DropList from './DropList';
 import DroplistApi from '../helpers/DroplistApi';
@@ -9,6 +9,7 @@ import CustomSwipeableButton from '../components/CustomSwipeableButton';
 import { useIsFocused } from '@react-navigation/native'
 import jwt_decode from 'jwt-decode';
 import NoContent from '../components/NoContent';
+import useErrors from '../hooks/useErrors';
 
 
 const DroplistIndex = ({navigation}) => {
@@ -16,6 +17,8 @@ const DroplistIndex = ({navigation}) => {
     const [departments, setDepartments] = useState(
         ['produce', 'sundries', 'hardlines',  'seasonal',  'freezer',  'dairy', 'receiving',  'deli']
     );
+
+    const [refreshing, setRefresh] = useState(false);
     
     const [token] = useContext(TokenContext);
 
@@ -25,13 +28,25 @@ const DroplistIndex = ({navigation}) => {
     const isFocused = useIsFocused()
 
     useEffect(() => {
-        async function getDroplists(){
-            const userDroplists = await DroplistApi.getAllDroplist(token);
-            setdroplists( () => [...userDroplists.droplists]);
-        }
+        
         getDroplists();
+        
     }, [isFocused]);
+
+
+    async function getDroplists(){
+        const userDroplists = await DroplistApi.getAllDroplist(token);
+        setdroplists( () => [...userDroplists.droplists]);
+        setRefresh(false);
+    }
     
+    const onRefresh = async () => {
+        setRefresh(true);
+        await getDroplists();
+        
+        
+    }
+
     const handleDelete = async (droplist_id) => {
         const isDeleted = await DroplistApi.deleteDroplist(token, droplist_id);   
         setdroplists(droplists.filter(d => d.id !== droplist_id));
@@ -146,6 +161,7 @@ const DroplistIndex = ({navigation}) => {
                 ) : 
             (
                 <SwipeListView 
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
                     initialNumToRender={4}
                     maxToRenderPerBatch={3}
                     removeClippedSubviews={true}
