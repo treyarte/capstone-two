@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Alert, RefreshControl} from 'react-native';
+import {View, Alert, RefreshControl, ScrollView} from 'react-native';
 import {Toast} from 'native-base';
 import DropList from './DropList';
 import DroplistApi from '../helpers/DroplistApi';
@@ -157,7 +157,9 @@ const DroplistIndex = ({navigation}) => {
         <View>
             {
                 droplists.length === 0 ? (
-                   <NoContent message={'No Droplist found'}/>
+                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+                        <NoContent message={'No Droplist found'}/>
+                    </ScrollView>
                 ) : 
             (
                 <SwipeListView 

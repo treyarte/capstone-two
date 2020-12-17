@@ -21,7 +21,8 @@
     },
     "android": {
       "package": "com.treyvionjohnson.mydroplist",
-      "versionCode": 3,
+      "versionCode": 4,
+      "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/mydroplist-icon.png",
         "backgroundColor": "#000"
