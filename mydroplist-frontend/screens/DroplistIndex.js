@@ -36,6 +36,9 @@ const DroplistIndex = ({navigation}) => {
 
     async function getDroplists(){
         const userDroplists = await DroplistApi.getAllDroplist(token);
+        
+        //created at is string. Must convert it to a date first.
+        userDroplists.droplists.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setdroplists( () => [...userDroplists.droplists]);
         setRefresh(false);
     }

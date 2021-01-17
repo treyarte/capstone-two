@@ -19,8 +19,19 @@ const DropList = ({droplist, departments, navigateToDetails}) => {
         },
         editBtn: {
          
+        },
+        droplistText:{
+            textTransform: 'capitalize'
         }
     });
+
+    const statusColor = {
+        sent: '#5bc0de',
+        accepted: '#0275d8',
+        completed: '#5cb85c',
+        declined: '#d9534f',
+        'not sent': '#6e6d6d'
+    }
 
     const onPressHandle = () => {
         navigateToDetails(droplist.id, droplist.description);
@@ -43,19 +54,19 @@ const DropList = ({droplist, departments, navigateToDetails}) => {
                         </Row>
                         <Row>
                         
-                                <Badge info  style={droplistStyles.badge}>
-                                    <Text>{droplist.status}</Text>
+                                <Badge info  style={{backgroundColor: statusColor[droplist.status], marginRight: 5}}>
+                                    <Text style={droplistStyles.droplistText}>{droplist.status}</Text>
                                 </Badge>
                      
                     
-                                <Badge success style={droplistStyles.badge}>
-                                    <Text>
+                                <Badge dark style={ {backgroundColor: '#222831', marginRight: 5}}>
+                                    <Text style={droplistStyles.droplistText}>
                                         {departments[droplist.department_id - 1]}
                                     </Text>
                                 </Badge>
                             
                                 <Badge primary style={droplistStyles.badge}>
-                                    <Text>Items: {droplist.num_items}</Text>
+                                    <Text >Items: {droplist.num_items}</Text>
                                 </Badge>
                                 
                         </Row>
