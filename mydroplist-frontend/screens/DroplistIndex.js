@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Alert, RefreshControl, ScrollView} from 'react-native';
-import {Toast} from 'native-base';
+import {View, Alert, RefreshControl, ScrollView, StyleSheet} from 'react-native';
+import {Toast, Spinner} from 'native-base';
 import DropList from './DropList';
 import DroplistApi from '../helpers/DroplistApi';
 import {TokenContext} from '../components/tokenContext'
@@ -19,6 +19,7 @@ const DroplistIndex = ({navigation}) => {
     );
 
     const [refreshing, setRefresh] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     
     const [token] = useContext(TokenContext);
 
@@ -41,6 +42,7 @@ const DroplistIndex = ({navigation}) => {
         userDroplists.droplists.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setdroplists( () => [...userDroplists.droplists]);
         setRefresh(false);
+        setIsLoading(false);
     }
     
     const onRefresh = async () => {
@@ -156,31 +158,46 @@ const DroplistIndex = ({navigation}) => {
        
     );
 
+    const styles = StyleSheet.create({
+        spinner: {
+            flex: 1,
+            justifyContent: 'center',
+            marginTop: 30
+        }
+    });
+
     return(
         <View>
             {
-                droplists.length === 0 ? (
-                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-                        <NoContent message={'No Droplist found'}/>
-                    </ScrollView>
+                isLoading ? (
+              
+                        <Spinner style={styles.spinner} color='#000'/>
+    
                 ) : 
-            (
-                <SwipeListView 
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
-                    initialNumToRender={4}
-                    maxToRenderPerBatch={3}
-                    removeClippedSubviews={true}
-                    data={droplists}
-                    renderItem={renderItem}
-                    keyExtractor={(item)=> item.id.toString()}
-                    renderHiddenItem={renderHiddenItem}
-                    leftOpenValue={75}
-                    rightOpenValue={-70}
-                    previewOpenValue={-40}
-                    previewOpenDelay={3000}
-                />
+            (  
+                
+                    droplists.length === 0 ? (
+                        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+                            <NoContent message={'No Droplist found'}/>
+                        </ScrollView>
+                    ) : (
+                        <SwipeListView 
+                            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+                            initialNumToRender={4}
+                            maxToRenderPerBatch={3}
+                            removeClippedSubviews={true}
+                            data={droplists}
+                            renderItem={renderItem}
+                            keyExtractor={(item)=> item.id.toString()}
+                            renderHiddenItem={renderHiddenItem}
+                            leftOpenValue={75}
+                            rightOpenValue={-70}
+                            previewOpenValue={-40}
+                            previewOpenDelay={3000}
+                        />
+                        )
+                
             )
-
             }
         </View>
     )
