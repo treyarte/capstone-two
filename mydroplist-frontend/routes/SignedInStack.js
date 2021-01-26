@@ -16,7 +16,7 @@ function homeStack ({navigation}) {
     const {Navigator, Screen} = createStackNavigator();
     return (
         <Navigator initialRouteName='DroplistIndex' >
-            <Screen name='DroplistIndex' component={DroplistIndex} options={{
+            <Screen name='DroplistIndex' component={DroplistIndex} options={{title: 'Home',
                 headerLeft: () => (
                     <Button transparent onPress={() => navigation.openDrawer()}>
                         <Icon style={{color: '#000000'}} name='md-menu'/>

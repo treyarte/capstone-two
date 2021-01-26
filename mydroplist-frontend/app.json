@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "My Droplist",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/mydroplist-icon.png",
     "description": "The app that manages and keeps track of your stockers' droplists",
@@ -21,7 +21,7 @@
     },
     "android": {
       "package": "com.treyvionjohnson.mydroplist",
-      "versionCode": 4,
+      "versionCode": 5,
       "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/mydroplist-icon.png",
