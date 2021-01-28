@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
 const droplistsRoutes = require('./routes/droplists');
 const itemsRoutes = require('./routes/items');
+const adminRoutes = require('./routes/admin');
 
 
 app.use(express.json());
@@ -18,6 +19,7 @@ app.use(cors());
 app.use(authenticateJWT);
 
 app.use('/', authRoutes)
+app.use('/admin', adminRoutes);
 app.use('/users', usersRoutes);
 app.use('/droplists', droplistsRoutes);
 droplistsRoutes.use('/:id/items', itemsRoutes);
